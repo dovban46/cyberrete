@@ -1,5 +1,7 @@
+@import "./parts/fonts.scss";
 @import "./parts/variables.scss";
 @import "./parts/header.scss";
+@import "./parts/hero.scss";
 
 body{
     background: #F1F1F1;
@@ -9,4 +11,8 @@ body{
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
+}
+
+p, a {
+  font-family: $font-base;
 }

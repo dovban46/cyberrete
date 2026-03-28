@@ -124,20 +124,28 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
   .header {
-    margin: 0;
-
-    &__container {
-      padding: 11px 21px;
-    }
-
     &__logo {
       max-height: 32px;
 
       &-img {
         max-height: 32px;
       }
+    }
+
+    &__action {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin: 0;
+
+    &__container {
+      padding: 11px 21px;
     }
 
     &__nav {

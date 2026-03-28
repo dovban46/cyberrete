@@ -179,7 +179,26 @@ function cyberrete_enqueue_styles_and_scripts() {
 
 	wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array('jquery'), false, true);
     wp_enqueue_script( 'cyberrete-main-min-js', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), null, true );
-    wp_enqueue_script( 'cyberrete-main-js', get_template_directory_uri() . '/src/js/main.js', array('jquery'), null, true );
 	wp_enqueue_script('main-js', get_template_directory_uri() . '/src/js/main.js', array('jquery', 'swiper-js', 'bootstrap-js', 'pagination-js', 'threejs', 'threejs-add', 'threejs-control'), false, true);
 }
 add_action( 'wp_enqueue_scripts', 'cyberrete_enqueue_styles_and_scripts' );
+
+// add acf content
+require get_template_directory() . '/inc/theme-acf.php';
+if ( ! function_exists( 'mytheme_register_nav_menu' ) ) {
+
+	function mytheme_register_nav_menu(){
+		register_nav_menus( array(
+	    	'Main-menu' => __( 'Primary Menu', 'text_domain' ),
+	    	'Main-footer-menu'  => __( 'Footer Menu', 'text_domain' ),
+		) );
+	}
+	add_action( 'after_setup_theme', 'mytheme_register_nav_menu', 0 );
+}
+
+//add svg file
+function allow_svg_uploads( $mimes ) {
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+}
+add_filter( 'upload_mimes', 'allow_svg_uploads' );
