@@ -1,0 +1,159 @@
+.header {
+  margin-top: 28px;
+  padding: 0;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 12px 20px;
+  }
+
+  &__logo {
+    flex: 0 0 auto;
+    max-height: 45px;
+
+    &-link {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    &-img {
+      max-height: 45px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__nav {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 50;
+  }
+
+  &__menu-icon {
+    display: block;
+    width: 20px;
+    height: auto;
+  }
+
+  &__menu-list {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      a {
+        position: relative;
+        color: $color-text-main;
+        text-decoration: none;
+        font-size: 17px;
+        line-height: 25px;
+        font-weight: 400;
+        transition: color 0.3s ease;
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -4px;
+          width: 0;
+          height: 2px;
+          background-color: $color-text-hover;
+          transition: width 0.3s ease;
+        }
+
+        &:hover {
+          color: $color-text-hover;
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+
+      &.current-menu-item > a {
+        font-weight: 600;
+        color: $color-text-hover;
+
+        &::after {
+          width: 100%;
+          background-color: $color-text-hover;
+        }
+      }
+    }
+  }
+
+  &__action {
+    flex: 0 0 auto;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-btn-bg;
+    color: $color-btn-text;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-size: 15px;
+    font-weight: 500;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      background-color: lighten($color-btn-bg, 10%);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin: 0;
+
+    &__container {
+      padding: 11px 21px;
+    }
+
+    &__logo {
+      max-height: 32px;
+
+      &-img {
+        max-height: 32px;
+      }
+    }
+
+    &__nav {
+      justify-content: flex-end;
+    }
+
+    &__menu-list {
+      display: none;
+    }
+
+    &__menu-toggle {
+      display: block;
+    }
+
+    &__action {
+      display: none;
+    }
+  }
+}

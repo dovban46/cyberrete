@@ -141,8 +141,6 @@ function cyberrete_scripts() {
 	wp_enqueue_style( 'cyberrete-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'cyberrete-style', 'rtl', 'replace' );
 
-	wp_enqueue_script( 'cyberrete-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
-
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
@@ -163,11 +161,6 @@ require get_template_directory() . '/inc/template-tags.php';
  * Functions which enhance the theme by hooking into WordPress.
  */
 require get_template_directory() . '/inc/template-functions.php';
-
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
 
 /**
  * Load Jetpack compatibility file.
