@@ -16,9 +16,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  const animatedElements = document.querySelectorAll('.hero__content .js-animate');
-  
-  animatedElements.forEach(function(element) {
-    element.classList.add('is-visible');
+  const animatedElements = document.querySelectorAll('.js-animate');
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15 
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target); 
+      }
+    });
+  }, observerOptions);
+
+  animatedElements.forEach(element => {
+    observer.observe(element);
   });
 });

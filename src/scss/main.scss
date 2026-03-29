@@ -2,11 +2,22 @@
 @import "./parts/variables.scss";
 @import "./parts/header.scss";
 @import "./parts/hero.scss";
+@import "./parts/supported.scss";
 
-body{
-    background: #F1F1F1;
-    font-family: $font-base;
-    margin: 0;
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden !important;
+}
+
+html:has(.mobile-menu.active) {
+  overflow: hidden;
+}
+
+body {
+  overflow-x: hidden !important;
+  background: #f1f1f1;
+  font-family: $font-base;
+  margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
