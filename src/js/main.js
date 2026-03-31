@@ -38,6 +38,37 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+//capabilities stagger animation
+document.addEventListener('DOMContentLoaded', function() {
+  const capabilitySections = document.querySelectorAll('.capabilities__container');
+
+  if (!capabilitySections.length) return;
+
+  const sectionObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const items = entry.target.querySelectorAll('.js-stagger-item');
+
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('is-visible');
+        }, index * 180);
+      });
+
+      observer.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.25
+  });
+
+  capabilitySections.forEach(section => {
+    sectionObserver.observe(section);
+  });
+});
+
 //counter stats section
 document.addEventListener('DOMContentLoaded', function() {
   const counters = document.querySelectorAll('.js-counter');

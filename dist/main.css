@@ -905,6 +905,189 @@
     font-size: 17px;
   }
 }
+.capabilities {
+  --capabilities-item-gap: 58px;
+  padding: 160px 16px;
+  background: #F1F1F1;
+  position: relative;
+  overflow: hidden;
+}
+.capabilities::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/images/Lines.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+.capabilities__container {
+  max-width: 1340px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.capabilities__header {
+  max-width: 700px;
+  margin: 0 auto 85px;
+  text-align: center;
+}
+.capabilities__title {
+  margin: 0 0 24px;
+  font-size: 58px;
+  line-height: 70px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  color: #1A2539;
+  text-transform: capitalize;
+}
+.capabilities__description {
+  margin: 0 auto;
+  font-size: 17px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #1A2539;
+}
+.capabilities__description p {
+  margin: 0;
+}
+.capabilities__list {
+  max-width: 625px;
+  margin: 0 auto;
+}
+.capabilities__item {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 64px;
+  min-height: 104px;
+}
+.capabilities__item:not(:last-child) {
+  margin-bottom: 64px;
+}
+.capabilities__item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 52px;
+  top: calc(100% + 6px);
+  width: 1px;
+  height: calc(var(--capabilities-item-gap) - 6px);
+  background-color: rgba(0, 0, 0, 0.16);
+}
+.capabilities .js-stagger-item {
+  opacity: 0;
+  -webkit-transform: translateY(28px);
+          transform: translateY(28px);
+  -webkit-transition: opacity 0.65s ease, -webkit-transform 0.65s ease;
+  transition: opacity 0.65s ease, -webkit-transform 0.65s ease;
+  transition: opacity 0.65s ease, transform 0.65s ease;
+  transition: opacity 0.65s ease, transform 0.65s ease, -webkit-transform 0.65s ease;
+  will-change: opacity, transform;
+}
+.capabilities .js-stagger-item.is-visible {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+.capabilities__icon-wrap {
+  width: 104px;
+  height: 104px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 104px;
+          flex: 0 0 104px;
+  border-radius: 20px;
+  background: linear-gradient(140.11deg, rgba(232, 230, 239, 0.8) -64.1%, #FFFFFF 47.23%, rgba(232, 230, 239, 0.8) 137.5%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 1;
+}
+.capabilities__icon {
+  width: 52px;
+  height: 52px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  display: block;
+}
+.capabilities__text {
+  max-width: 470px;
+  font-size: 17px;
+  line-height: 25px;
+  font-weight: 400;
+  color: #5B6270;
+}
+.capabilities__text p {
+  margin: 0;
+}
+
+@media (max-width: 1080px) {
+  .capabilities {
+    padding: 120px 16px;
+  }
+}
+@media (max-width: 768px) {
+  .capabilities {
+    padding: 80px 16px;
+    --capabilities-item-gap: 60px;
+  }
+  .capabilities__header {
+    max-width: 100%;
+    text-align: start;
+  }
+  .capabilities__title {
+    font-size: 48px;
+    line-height: 1.1;
+  }
+  .capabilities__description {
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0;
+    max-width: 600px;
+  }
+  .capabilities__list {
+    max-width: 100%;
+  }
+  .capabilities__item {
+    gap: 12px;
+    min-height: 90px;
+  }
+  .capabilities__item:not(:last-child) {
+    margin-bottom: 40px;
+  }
+  .capabilities__item:not(:last-child)::after {
+    left: 33px;
+    top: calc(100% - 7px);
+    height: calc(var(--capabilities-item-gap) - 6px);
+  }
+  .capabilities__icon-wrap {
+    width: 65px;
+    height: 65px;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 65px;
+            flex: 0 0 65px;
+    border-radius: 8px;
+  }
+  .capabilities__icon {
+    width: 32px;
+    height: 32px;
+  }
+  .capabilities__text {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
 html {
   scroll-behavior: smooth;
   overflow-x: hidden !important;
