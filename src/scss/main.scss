@@ -3,6 +3,8 @@
 @import "./parts/header.scss";
 @import "./parts/hero.scss";
 @import "./parts/supported.scss";
+@import "./parts/stats.scss";
+@import "./parts/solutions.scss";
 
 html {
   scroll-behavior: smooth;
@@ -15,7 +17,7 @@ html:has(.mobile-menu.active) {
 
 body {
   overflow-x: hidden !important;
-  background: #f1f1f1;
+  background: $color-bg-primary;
   font-family: $font-base;
   margin: 0;
 }
