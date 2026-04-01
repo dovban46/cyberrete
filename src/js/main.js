@@ -219,100 +219,124 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// experts testimonials slider (no loop, autoplay, one slide per step)
-document.addEventListener('DOMContentLoaded', function() {
-  const sliders = document.querySelectorAll('.js-experts-slider');
+/**
+ * Experts + Blog: однаковий Swiper (1 / 2 / 3 слайди, bullets, autoplay, дубль кнопок mobile).
+ */
+function initContentSlider(sliderEl, config) {
+  if (typeof Swiper === 'undefined') return;
 
-  if (!sliders.length || typeof Swiper === 'undefined') return;
+  const root = sliderEl.closest(config.rootSelector);
+  if (!root) return;
 
-  sliders.forEach((sliderEl) => {
-    const root = sliderEl.closest('.experts__container');
-    if (!root) return;
+  const prevEls = root.querySelectorAll('.' + config.prevBtnClass);
+  const nextEls = root.querySelectorAll('.' + config.nextBtnClass);
+  const paginationEl = sliderEl.querySelector('.' + config.paginationClass);
 
-    const prevEls = root.querySelectorAll('.js-experts-prev');
-    const nextEls = root.querySelectorAll('.js-experts-next');
-    const paginationEl = sliderEl.querySelector('.experts__pagination');
+  if (!prevEls.length || !nextEls.length || !paginationEl) return;
 
-    if (!prevEls.length || !nextEls.length || !paginationEl) return;
+  const prevEl = prevEls[0];
+  const nextEl = nextEls[0];
 
-    const prevEl = prevEls[0];
-    const nextEl = nextEls[0];
+  const syncNav = (swiper) => {
+    const dPrev = swiper.isBeginning;
+    const dNext = swiper.isEnd;
+    prevEls.forEach((btn) => {
+      btn.classList.toggle(config.disabledClass, dPrev);
+      btn.setAttribute('aria-disabled', dPrev ? 'true' : 'false');
+    });
+    nextEls.forEach((btn) => {
+      btn.classList.toggle(config.disabledClass, dNext);
+      btn.setAttribute('aria-disabled', dNext ? 'true' : 'false');
+    });
+  };
 
-    const syncExpertsNav = (swiper) => {
-      const dPrev = swiper.isBeginning;
-      const dNext = swiper.isEnd;
-      prevEls.forEach((btn) => {
-        btn.classList.toggle('experts__nav-btn--disabled', dPrev);
-        btn.setAttribute('aria-disabled', dPrev ? 'true' : 'false');
-      });
-      nextEls.forEach((btn) => {
-        btn.classList.toggle('experts__nav-btn--disabled', dNext);
-        btn.setAttribute('aria-disabled', dNext ? 'true' : 'false');
-      });
-    };
-
-    const swiper = new Swiper(sliderEl, {
-      loop: false,
-      slidesPerView: 1,
-      slidesPerGroup: 1,
-      spaceBetween: 20,
-      speed: 550,
-      watchOverflow: true,
-      watchSlidesProgress: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true
+  const swiper = new Swiper(sliderEl, {
+    loop: false,
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    spaceBetween: 20,
+    speed: 550,
+    watchOverflow: true,
+    watchSlidesProgress: true,
+    observer: true,
+    observeParents: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true
+    },
+    navigation: {
+      prevEl,
+      nextEl,
+      disabledClass: config.disabledClass
+    },
+    pagination: {
+      el: paginationEl,
+      clickable: true,
+      type: 'bullets',
+      dynamicBullets: false
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 2,
+        slidesPerGroup: 1,
+        spaceBetween: 20
       },
-      navigation: {
-        prevEl,
-        nextEl,
-        disabledClass: 'experts__nav-btn--disabled'
-      },
-      pagination: {
-        el: paginationEl,
-        clickable: true,
-        type: 'bullets',
-        dynamicBullets: false
-      },
-      breakpoints: {
-        768: {
-          slidesPerView: 2,
-          slidesPerGroup: 1,
-          spaceBetween: 20
-        },
-        1200: {
-          slidesPerView: 3,
-          slidesPerGroup: 1,
-          spaceBetween: 24
-        }
-      },
-      on: {
-        init(s) {
-          s.navigation.update();
-          syncExpertsNav(s);
-        },
-        slideChange(s) {
-          syncExpertsNav(s);
-        },
-        resize(s) {
-          s.navigation.update();
-          syncExpertsNav(s);
-        }
+      1200: {
+        slidesPerView: 3,
+        slidesPerGroup: 1,
+        spaceBetween: 24
       }
-    });
+    },
+    on: {
+      init(s) {
+        s.navigation.update();
+        syncNav(s);
+      },
+      slideChange(s) {
+        syncNav(s);
+      },
+      resize(s) {
+        s.navigation.update();
+        syncNav(s);
+      }
+    }
+  });
 
-    prevEls.forEach((btn, i) => {
-      if (i === 0) return;
-      btn.addEventListener('click', () => {
-        if (!swiper.isBeginning) swiper.slidePrev();
-      });
+  prevEls.forEach((btn, i) => {
+    if (i === 0) return;
+    btn.addEventListener('click', () => {
+      if (!swiper.isBeginning) swiper.slidePrev();
     });
-    nextEls.forEach((btn, i) => {
-      if (i === 0) return;
-      btn.addEventListener('click', () => {
-        if (!swiper.isEnd) swiper.slideNext();
-      });
+  });
+  nextEls.forEach((btn, i) => {
+    if (i === 0) return;
+    btn.addEventListener('click', () => {
+      if (!swiper.isEnd) swiper.slideNext();
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof Swiper === 'undefined') return;
+
+  document.querySelectorAll('.js-experts-slider').forEach((sliderEl) => {
+    initContentSlider(sliderEl, {
+      rootSelector: '.experts__container',
+      prevBtnClass: 'js-experts-prev',
+      nextBtnClass: 'js-experts-next',
+      paginationClass: 'experts__pagination',
+      disabledClass: 'experts__nav-btn--disabled'
+    });
+  });
+
+  document.querySelectorAll('.js-blog-slider').forEach((sliderEl) => {
+    initContentSlider(sliderEl, {
+      rootSelector: '.blog__container',
+      prevBtnClass: 'js-blog-prev',
+      nextBtnClass: 'js-blog-next',
+      paginationClass: 'blog__pagination',
+      disabledClass: 'blog__nav-btn--disabled'
     });
   });
 });
