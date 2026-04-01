@@ -38,6 +38,30 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// why-choose: кожна картка з’являється при скролі до неї (виїзд зліва)
+document.addEventListener('DOMContentLoaded', function() {
+  const whyCards = document.querySelectorAll('.js-why-choose-card');
+
+  if (!whyCards.length) return;
+
+  const cardObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -6% 0px',
+    threshold: 0.12
+  });
+
+  whyCards.forEach(card => {
+    cardObserver.observe(card);
+  });
+});
+
 //capabilities stagger animation
 document.addEventListener('DOMContentLoaded', function() {
   const capabilitySections = document.querySelectorAll('.capabilities__container');
