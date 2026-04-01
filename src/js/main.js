@@ -195,6 +195,104 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// experts testimonials slider (no loop, autoplay, one slide per step)
+document.addEventListener('DOMContentLoaded', function() {
+  const sliders = document.querySelectorAll('.js-experts-slider');
+
+  if (!sliders.length || typeof Swiper === 'undefined') return;
+
+  sliders.forEach((sliderEl) => {
+    const root = sliderEl.closest('.experts__container');
+    if (!root) return;
+
+    const prevEls = root.querySelectorAll('.js-experts-prev');
+    const nextEls = root.querySelectorAll('.js-experts-next');
+    const paginationEl = sliderEl.querySelector('.experts__pagination');
+
+    if (!prevEls.length || !nextEls.length || !paginationEl) return;
+
+    const prevEl = prevEls[0];
+    const nextEl = nextEls[0];
+
+    const syncExpertsNav = (swiper) => {
+      const dPrev = swiper.isBeginning;
+      const dNext = swiper.isEnd;
+      prevEls.forEach((btn) => {
+        btn.classList.toggle('experts__nav-btn--disabled', dPrev);
+        btn.setAttribute('aria-disabled', dPrev ? 'true' : 'false');
+      });
+      nextEls.forEach((btn) => {
+        btn.classList.toggle('experts__nav-btn--disabled', dNext);
+        btn.setAttribute('aria-disabled', dNext ? 'true' : 'false');
+      });
+    };
+
+    const swiper = new Swiper(sliderEl, {
+      loop: false,
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      spaceBetween: 20,
+      speed: 550,
+      watchOverflow: true,
+      watchSlidesProgress: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      navigation: {
+        prevEl,
+        nextEl,
+        disabledClass: 'experts__nav-btn--disabled'
+      },
+      pagination: {
+        el: paginationEl,
+        clickable: true,
+        type: 'bullets',
+        dynamicBullets: false
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+          slidesPerGroup: 1,
+          spaceBetween: 20
+        },
+        1200: {
+          slidesPerView: 3,
+          slidesPerGroup: 1,
+          spaceBetween: 24
+        }
+      },
+      on: {
+        init(s) {
+          s.navigation.update();
+          syncExpertsNav(s);
+        },
+        slideChange(s) {
+          syncExpertsNav(s);
+        },
+        resize(s) {
+          s.navigation.update();
+          syncExpertsNav(s);
+        }
+      }
+    });
+
+    prevEls.forEach((btn, i) => {
+      if (i === 0) return;
+      btn.addEventListener('click', () => {
+        if (!swiper.isBeginning) swiper.slidePrev();
+      });
+    });
+    nextEls.forEach((btn, i) => {
+      if (i === 0) return;
+      btn.addEventListener('click', () => {
+        if (!swiper.isEnd) swiper.slideNext();
+      });
+    });
+  });
+});
+
 //counter stats section
 document.addEventListener('DOMContentLoaded', function() {
   const counters = document.querySelectorAll('.js-counter');

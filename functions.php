@@ -140,8 +140,9 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 
 //connect styles and scripts
 function cyberrete_enqueue_styles_and_scripts() {
-    wp_enqueue_style( 'cyberrete-main-min-css', get_template_directory_uri() . '/dist/main.min.css', array(), null, 'all' );
-    wp_enqueue_style( 'cyberrete-main-css', get_template_directory_uri() . '/dist/main.css', array(), null, 'all' );
+	wp_enqueue_style( 'swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0', 'all' );
+    wp_enqueue_style( 'cyberrete-main-min-css', get_template_directory_uri() . '/dist/main.min.css', array( 'swiper-css' ), null, 'all' );
+    wp_enqueue_style( 'cyberrete-main-css', get_template_directory_uri() . '/dist/main.css', array( 'swiper-css' ), null, 'all' );
 
 	wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array('jquery'), false, true);
     wp_enqueue_script( 'cyberrete-main-min-js', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), null, true );
