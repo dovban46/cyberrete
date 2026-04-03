@@ -154,11 +154,16 @@ add_action( 'wp_enqueue_scripts', 'cyberrete_enqueue_styles_and_scripts' );
 require get_template_directory() . '/inc/theme-acf.php';
 if ( ! function_exists( 'mytheme_register_nav_menu' ) ) {
 
-	function mytheme_register_nav_menu(){
-		register_nav_menus( array(
-	    	'Main-menu' => __( 'Primary Menu', 'text_domain' ),
-	    	'Main-footer-menu'  => __( 'Footer Menu', 'text_domain' ),
-		) );
+	function mytheme_register_nav_menu() {
+		register_nav_menus(
+			array(
+				'Main-menu'        => __( 'Primary Menu', 'cyberrete' ),
+				'Main-footer-menu' => __( 'Footer Menu', 'cyberrete' ),
+				'footer_menu_1'    => __( 'Footer — Menu 1', 'cyberrete' ),
+				'footer_menu_2'    => __( 'Footer — Menu 2', 'cyberrete' ),
+				'footer_menu_3'    => __( 'Footer — Menu 3', 'cyberrete' ),
+			)
+		);
 	}
 	add_action( 'after_setup_theme', 'mytheme_register_nav_menu', 0 );
 }
