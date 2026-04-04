@@ -43,8 +43,8 @@
             </div>
 
             <nav id="site-navigation" class="header__nav main-navigation">
-                <button class="header__menu-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="<?php esc_attr_e( 'Menu', 'cyberrete' ); ?>">
-					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/header-mobile.svg' ); ?>" alt="Menu" class="header__menu-icon">
+                <button type="button" class="header__menu-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="<?php esc_attr_e( 'Menu', 'cyberrete' ); ?>">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/header-mobile.svg' ); ?>" alt="" class="header__menu-icon" width="20" height="20" decoding="async">
 				</button>
                 <?php
                 wp_nav_menu(
@@ -56,7 +56,8 @@
                     )
                 );
                 ?>
-            </nav><div class="header__action">
+            </nav>
+            <div class="header__action">
                 <?php if ( $header_button ) : 
                     $button_url    = $header_button['url'];
                     $button_title  = $header_button['title'];
@@ -68,4 +69,46 @@
                 <?php endif; ?>
             </div>
 
-        </div></header>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <div class="mobile-menu__backdrop" tabindex="-1" aria-hidden="true"></div>
+        <aside
+            class="mobile-menu__panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-menu-heading"
+        >
+            <div class="mobile-menu__top">
+                <h2 id="mobile-menu-heading" class="mobile-menu__title"><?php esc_html_e( 'Menu', 'cyberrete' ); ?></h2>
+                <button type="button" class="mobile-menu__close" aria-label="<?php esc_attr_e( 'Close menu', 'cyberrete' ); ?>">
+                    <span class="mobile-menu__close-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            <nav class="mobile-menu__nav" aria-label="<?php esc_attr_e( 'Primary', 'cyberrete' ); ?>">
+                <?php
+                wp_nav_menu(
+                    array(
+                        'menu'       => 'Main menu',
+                        'menu_id'    => 'mobile-primary-menu',
+                        'menu_class' => 'mobile-menu__list',
+                        'container'  => false,
+                    )
+                );
+                ?>
+            </nav>
+            <?php if ( $header_button ) : ?>
+                <div class="mobile-menu__footer">
+                    <?php
+                    $button_url    = $header_button['url'];
+                    $button_title  = $header_button['title'];
+                    $button_target = $header_button['target'] ? $header_button['target'] : '_self';
+                    ?>
+                    <a href="<?php echo esc_url( $button_url ); ?>" target="<?php echo esc_attr( $button_target ); ?>" class="mobile-menu__cta header__btn btn">
+                        <?php echo esc_html( $button_title ); ?>
+                    </a>
+                </div>
+            <?php endif; ?>
+        </aside>
+    </div>

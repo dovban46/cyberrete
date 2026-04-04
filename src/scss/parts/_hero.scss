@@ -15,11 +15,11 @@
     max-width: 1070px;
     margin: 0 auto;
     text-align: center;
-    padding: 100px 16px 72px;
+    padding: 200px 16px 72px;
 
     .js-animate {
       opacity: 0;
-      transition: opacity 2s ease;
+      transition: opacity 3s ease;
       will-change: opacity;
     }
 
@@ -131,7 +131,7 @@
 @media (max-width: 1080px) {
   .hero {
     &__content {
-      padding: 50px 16px 42px;
+      padding: 150px 16px 42px;
     }
 
     &__title {
@@ -153,7 +153,7 @@
 @media (max-width: 768px) {
   .hero {
     &__content {
-      padding: 37px 16px 42px;
+      padding: 100px 16px 42px;
     }
 
     &__title {

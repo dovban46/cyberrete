@@ -1,19 +1,36 @@
+// Не fixed: лише поверх першого екрану (hero), далі йде зі скролом — absolute у #page.site.
 .header {
-  padding: 28px 0 0;
-  background: $color-bg-second;
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: min(1340px, calc(100% - 32px));
+  max-width: 1340px;
+  height: 70px;
+  max-height: 70px;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background: #f2f4f74d;
+  border-radius: 30px;
+  overflow: hidden;
 
   &__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1300px;
+    width: 100%;
+    height: 100%;
+    max-width: 1340px;
     margin: 0 auto;
-    padding: 12px 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
   }
 
   &__logo {
     flex: 0 0 auto;
-    max-height: 45px;
+    max-height: 44px;
 
     &-link {
       display: inline-flex;
@@ -22,7 +39,7 @@
     }
 
     &-img {
-      max-height: 45px;
+      max-height: 44px;
       width: auto;
       object-fit: contain;
     }
@@ -142,10 +159,10 @@
 
 @media (max-width: 768px) {
   .header {
-    margin: 0;
+    width: min(1340px, calc(100% - 24px));
 
     &__container {
-      padding: 11px 21px;
+      padding: 0 21px;
     }
 
     &__nav {

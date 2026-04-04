@@ -387,3 +387,56 @@ document.addEventListener('DOMContentLoaded', function() {
     counterObserver.observe(counter);
   });
 });
+
+// Мобільне меню (бургер): панель справа, затемнення, закриття по X / поза панеллю / Escape.
+document.addEventListener('DOMContentLoaded', () => {
+  const menuRoot = document.getElementById('mobile-menu');
+  const toggle = document.querySelector('.header__menu-toggle');
+  if (!menuRoot || !toggle) return;
+
+  const backdrop = menuRoot.querySelector('.mobile-menu__backdrop');
+  const closeBtn = menuRoot.querySelector('.mobile-menu__close');
+
+  const close = () => {
+    if (!menuRoot.classList.contains('active')) return;
+    menuRoot.classList.remove('active');
+    document.documentElement.classList.remove('mobile-menu-open');
+    document.body.classList.remove('mobile-menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    menuRoot.setAttribute('aria-hidden', 'true');
+  };
+
+  const open = () => {
+    menuRoot.classList.add('active');
+    document.documentElement.classList.add('mobile-menu-open');
+    document.body.classList.add('mobile-menu-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    menuRoot.setAttribute('aria-hidden', 'false');
+    closeBtn?.focus();
+  };
+
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (menuRoot.classList.contains('active')) {
+      close();
+    } else {
+      open();
+    }
+  });
+
+  backdrop?.addEventListener('click', close);
+  closeBtn?.addEventListener('click', close);
+
+  menuRoot.querySelectorAll('.mobile-menu a[href]').forEach((link) => {
+    link.addEventListener('click', () => close());
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !menuRoot.classList.contains('active')) return;
+    close();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) close();
+  });
+});

@@ -1,6 +1,7 @@
 @import "./parts/fonts.scss";
 @import "./parts/variables.scss";
 @import "./parts/header.scss";
+@import "./parts/mobile-menu.scss";
 @import "./parts/hero.scss";
 @import "./parts/supported.scss";
 @import "./parts/stats.scss";
@@ -19,8 +20,10 @@ html {
   overflow-x: hidden !important;
 }
 
+html.mobile-menu-open,
 html:has(.mobile-menu.active) {
-  overflow: hidden;
+  overflow: hidden !important;
+  height: 100%;
 }
 
 body {
@@ -28,6 +31,22 @@ body {
   background: $color-bg-primary;
   font-family: $font-base;
   margin: 0;
+}
+
+body.mobile-menu-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+// Контекст для absolute-хедера (лише поверх першого блоку, далі скролиться разом зі сторінкою).
+#page.site {
+  position: relative;
+}
+
+// Якщо перший блок не hero — щоб контент не заходив під хедер.
+#page.site > .header + section:not(.hero) {
+  padding-top: calc(max(12px, env(safe-area-inset-top, 0px)) + 70px + 16px);
 }
 
 h1, h2, h3, h4, h5, h6 {

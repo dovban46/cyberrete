@@ -1,0 +1,193 @@
+// Виїзд зправа: лише ≤768px (бургер видимий там само).
+.mobile-menu {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    pointer-events: none;
+    visibility: hidden;
+
+    &.active {
+      pointer-events: auto;
+      visibility: visible;
+
+      .mobile-menu__backdrop {
+        opacity: 1;
+      }
+
+      .mobile-menu__panel {
+        padding-top: 40px;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    &__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 37, 57, 0.45);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    &__panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      width: min(360px, 100vw - 40px);
+      max-width: 100%;
+      padding: 0;
+      margin: 0;
+      background: $color-bg-primary;
+      box-shadow: -12px 0 40px rgba(26, 37, 57, 0.12);
+      transform: translate3d(100%, 0, 0);
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+      border-radius: 24px 0 0 24px;
+      border: 1px solid rgba(26, 37, 57, 0.06);
+      border-right: none;
+    }
+
+    &__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 16px;
+      padding: max(16px, env(safe-area-inset-top, 0px)) 20px 16px;
+      border-bottom: 1px solid rgba(26, 37, 57, 0.08);
+    }
+
+    &__title {
+      margin: 0;
+      font-family: $font-heading;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: $color-text-main;
+    }
+
+    &__close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 12px;
+      background: rgba(26, 37, 57, 0.06);
+      color: $color-text-main;
+      cursor: pointer;
+      transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+
+      &:hover {
+        background: rgba(51, 78, 157, 0.12);
+        color: $color-text-hover;
+      }
+
+      &:active {
+        transform: scale(0.96);
+      }
+    }
+
+    &__close-icon {
+      position: relative;
+      display: block;
+      width: 18px;
+      height: 18px;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 2px;
+        margin-top: -1px;
+        border-radius: 1px;
+        background: currentColor;
+      }
+
+      &::before {
+        transform: rotate(45deg);
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+      }
+    }
+
+    &__nav {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 12px 12px 24px;
+    }
+
+    &__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        border-bottom: 1px solid rgba(26, 37, 57, 0.06);
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+
+      a {
+        display: block;
+        padding: 16px 12px;
+        color: $color-text-main;
+        text-decoration: none;
+        font-size: 17px;
+        line-height: 1.35;
+        font-weight: 400;
+        border-radius: 12px;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+          background: rgba(51, 78, 157, 0.08);
+          color: $color-text-hover;
+          outline: none;
+        }
+      }
+
+      .current-menu-item > a {
+        font-weight: 600;
+        color: $color-text-hover;
+        background: rgba(51, 78, 157, 0.06);
+      }
+    }
+
+    &__footer {
+      flex-shrink: 0;
+      padding: 16px 20px max(20px, env(safe-area-inset-bottom, 0px));
+      border-top: 1px solid rgba(26, 37, 57, 0.08);
+      background: linear-gradient(180deg, rgba(249, 250, 251, 0) 0%, $color-bg-primary 12px);
+
+      .header__btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+        box-sizing: border-box;
+      }
+    }
+  }
+}
