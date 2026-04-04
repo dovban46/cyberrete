@@ -1,5 +1,6 @@
 @import "./parts/fonts.scss";
 @import "./parts/variables.scss";
+@import "./parts/scrollbar.scss";
 @import "./parts/header.scss";
 @import "./parts/mobile-menu.scss";
 @import "./parts/hero.scss";
@@ -17,7 +18,7 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden !important;
+  // overflow-x лише на body — інакше у Chrome/Edge зникає thumb вертикального скролбара.
 }
 
 html.mobile-menu-open,
@@ -28,6 +29,7 @@ html:has(.mobile-menu.active) {
 
 body {
   overflow-x: hidden !important;
+  max-width: 100%;
   background: $color-bg-primary;
   font-family: $font-base;
   margin: 0;

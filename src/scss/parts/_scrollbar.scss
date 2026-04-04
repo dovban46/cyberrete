@@ -1,0 +1,40 @@
+// Кастомний скролбар у тон сайту.
+// Дубль overflow-x на html + body у Chromium/Edge часто дає «порожню» доріжку без повзунка.
+
+html {
+  // Firefox
+  scrollbar-width: thin;
+  scrollbar-color: rgba(51, 78, 157, 0.7) rgba(232, 236, 242, 0.95);
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: rgba(232, 236, 242, 0.98);
+  border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(51, 78, 157, 0.9) 0%,
+    rgba(26, 37, 57, 0.85) 100%
+  );
+  border-radius: 999px;
+  border: 2px solid rgba(232, 236, 242, 0.98);
+  min-height: 48px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(51, 78, 157, 1) 0%,
+    rgba(26, 37, 57, 0.95) 100%
+  );
+}
+
+html::-webkit-scrollbar-corner {
+  background: transparent;
+}

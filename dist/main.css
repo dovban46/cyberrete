@@ -12,6 +12,37 @@
   font-style: normal;
   font-display: swap;
 }
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(51, 78, 157, 0.7) rgba(232, 236, 242, 0.95);
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: rgba(232, 236, 242, 0.98);
+  border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(51, 78, 157, 0.9)), to(rgba(26, 37, 57, 0.85)));
+  background: linear-gradient(180deg, rgba(51, 78, 157, 0.9) 0%, rgba(26, 37, 57, 0.85) 100%);
+  border-radius: 999px;
+  border: 2px solid rgba(232, 236, 242, 0.98);
+  min-height: 48px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(51, 78, 157)), to(rgba(26, 37, 57, 0.95)));
+  background: linear-gradient(180deg, rgb(51, 78, 157) 0%, rgba(26, 37, 57, 0.95) 100%);
+}
+
+html::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 .header {
   position: absolute;
   top: max(12px, env(safe-area-inset-top, 0px));
@@ -178,6 +209,9 @@
   }
   .header__logo-img {
     max-height: 32px;
+  }
+  .header__menu-list {
+    gap: 24px;
   }
   .header__action {
     display: none;
@@ -3519,7 +3553,6 @@
 }
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden !important;
 }
 
 html.mobile-menu-open,
@@ -3530,6 +3563,7 @@ html:has(.mobile-menu.active) {
 
 body {
   overflow-x: hidden !important;
+  max-width: 100%;
   background: #F9FAFB;
   font-family: "Open Sauce Sans", sans-serif;
   margin: 0;
