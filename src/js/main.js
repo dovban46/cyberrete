@@ -2,16 +2,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const video = document.querySelector('.hero__video');
   const playBtn = document.querySelector('.hero__play-btn');
 
-  if (video && playBtn) {
-    playBtn.addEventListener('click', () => {
-      if (video.paused) {
-        video.play();
-        playBtn.classList.remove('is-paused');
-      } else {
-        video.pause();
-        playBtn.classList.add('is-paused');
-      }
-    });
+  if (!video || !playBtn) return;
+
+  const playLabel = playBtn.getAttribute('data-label-play') || 'Play video';
+
+  const syncPlayButton = () => {
+    if (video.paused) {
+      playBtn.removeAttribute('hidden');
+      playBtn.setAttribute('aria-label', playLabel);
+    } else {
+      playBtn.setAttribute('hidden', '');
+    }
+  };
+
+  playBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (video.paused) {
+      video.play();
+    }
+  });
+
+  video.addEventListener('play', syncPlayButton);
+  video.addEventListener('pause', syncPlayButton);
+
+  // Коли кнопка схована під час відтворення — пауза кліком по відео.
+  video.addEventListener('click', () => {
+    if (!video.paused) {
+      video.pause();
+    }
+  });
+
+  if (video.readyState >= 2) {
+    syncPlayButton();
+  } else {
+    video.addEventListener('loadeddata', syncPlayButton, { once: true });
   }
 });
 

@@ -116,6 +116,11 @@
     align-items: center;
     justify-content: center;
 
+    // Кнопка з play-іконкою лише коли відео на паузі (керується атрибутом hidden у JS).
+    &[hidden] {
+      display: none !important;
+    }
+
     &:hover {
       transform: translate(-50%, -50%) scale(1.2);
     }

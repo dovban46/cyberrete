@@ -578,6 +578,9 @@ html::-webkit-scrollbar-corner {
       -ms-flex-pack: center;
           justify-content: center;
 }
+.hero__play-btn[hidden] {
+  display: none !important;
+}
 .hero__play-btn:hover {
   -webkit-transform: translate(-50%, -50%) scale(1.2);
           transform: translate(-50%, -50%) scale(1.2);

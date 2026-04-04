@@ -43,8 +43,8 @@
                                 <?php if ( $poster ) : ?>poster="<?php echo esc_url( $poster['url'] ); ?>"<?php endif; ?>
                                 autoplay muted loop playsinline>
                             </video>
-                            <button class="hero__play-btn" aria-label="Play video">
-                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/video-play.svg' ); ?>" alt="Play" class="hero__play-icon">
+                            <button type="button" class="hero__play-btn" data-label-play="<?php esc_attr_e( 'Play video', 'cyberrete' ); ?>" aria-label="<?php esc_attr_e( 'Play video', 'cyberrete' ); ?>" hidden>
+                                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/video-play.svg' ); ?>" alt="" class="hero__play-icon" width="104" height="104" decoding="async">
                             </button>
                         <?php elseif ( $poster ) : ?>
                             <img src="<?php echo esc_url( $poster['url'] ); ?>" alt="<?php echo esc_attr( $poster['alt'] ); ?>" class="hero__image">
