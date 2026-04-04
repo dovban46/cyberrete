@@ -2849,6 +2849,114 @@
   width: 100%;
   max-width: 100%;
 }
+.site-footer__newsletter-form .tnp-subscription {
+  margin: 0;
+  max-width: 660px;
+}
+.site-footer__newsletter-form .tnp-subscription form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  gap: 4px 4px;
+  margin: 0;
+}
+.site-footer__newsletter-form .tnp-field {
+  margin: 0 !important;
+}
+.site-footer__newsletter-form .tnp-field-email {
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  min-width: 0;
+}
+.site-footer__newsletter-form .tnp-field-email label {
+  display: none;
+}
+.site-footer__newsletter-form .tnp-email {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 16px;
+  font-family: "Open Sauce Sans", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  color: #1A2539;
+  background: #F9FAFB;
+  border-radius: 4px;
+  -webkit-transition: border-color 0.2s ease, background-color 0.2s ease, -webkit-box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, -webkit-box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, -webkit-box-shadow 0.2s ease;
+}
+.site-footer__newsletter-form .tnp-email:hover {
+  border-color: #cbd5e1;
+}
+.site-footer__newsletter-form .tnp-email:focus {
+  outline: none;
+}
+.site-footer__newsletter-form .tnp-email:focus-visible {
+  border-color: #334E9D;
+  -webkit-box-shadow: 0 0 0 3px rgba(51, 78, 157, 0.2);
+          box-shadow: 0 0 0 3px rgba(51, 78, 157, 0.2);
+}
+.site-footer__newsletter-form .tnp-field-button {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -ms-flex-item-align: stretch;
+      align-self: stretch;
+  text-align: center !important;
+}
+.site-footer__newsletter-form .tnp-field-button .tnp-submit {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-height: 44px;
+  height: 100%;
+  padding: 9px 32px;
+  font-family: "Open Sauce Sans", sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 25px;
+  color: #151515 !important;
+  background: #EAEBEE !important;
+  border: none !important;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-transition: background-color 0.2s ease, -webkit-box-shadow 0.2s ease, -webkit-transform 0.15s ease;
+  transition: background-color 0.2s ease, -webkit-box-shadow 0.2s ease, -webkit-transform 0.15s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, -webkit-box-shadow 0.2s ease, -webkit-transform 0.15s ease;
+}
+.site-footer__newsletter-form .tnp-field-button .tnp-submit:hover {
+  background: #d7d8da !important;
+  -webkit-box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+.site-footer__newsletter-form .tnp-field-button .tnp-submit:focus {
+  outline: none;
+}
+.site-footer__newsletter-form .tnp-field-button .tnp-submit:focus-visible {
+  outline: 2px solid #334E9D;
+  outline-offset: 3px;
+}
+.site-footer__newsletter-form .tnp-field-button .tnp-submit:active {
+  -webkit-transform: translateY(1px);
+          transform: translateY(1px);
+}
+@media (max-width: 480px) {
+  .site-footer__newsletter-form .tnp-field-button .tnp-submit {
+    width: 100%;
+    padding: 9px 8px;
+  }
+}
 .site-footer__middle {
   display: -webkit-box;
   display: -ms-flexbox;

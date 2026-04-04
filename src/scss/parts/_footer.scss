@@ -83,10 +83,124 @@ $footer-max: 1340px;
     text-transform: capitalize;
   }
 
-  // Wrapper only: layout hook — no styles for shortcode inputs/buttons (per project note).
+  // The Newsletter Plugin (`.tnp`) — layout + стилі як у макеті: ряд, без видимого лейбла.
   &__newsletter-form {
     width: 100%;
     max-width: 100%;
+
+    .tnp-subscription {
+      margin: 0;
+      max-width: 660px;
+    }
+
+    .tnp-subscription form {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      gap: 4px 4px;
+      margin: 0;
+    }
+
+    .tnp-field {
+      margin: 0 !important;
+    }
+
+    .tnp-field-email {
+      position: relative;
+      flex: 1 1 auto;
+      min-width: 0;
+
+      label {
+        display: none;
+      }
+    }
+
+    // Поле email — ті самі hover / focus, що й `.contact-form__input` у `_contact.scss`.
+    .tnp-email {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 44px;
+      padding: 12px 16px;
+      font-family: $font-base;
+      font-size: 16px;
+      line-height: 22px;
+      color: $color-text-main;
+      background: #F9FAFB;
+      border-radius: 4px;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+
+      &:hover {
+        border-color: $contact-field-border-hover;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:focus-visible {
+        border-color: $color-text-hover;
+        box-shadow: 0 0 0 3px rgba(51, 78, 157, 0.2);
+      }
+    }
+
+    .tnp-field-button {
+      flex: 0 0 auto;
+      align-self: stretch;
+      text-align: center !important;
+
+      .tnp-submit {
+        box-sizing: border-box;
+        min-height: 44px;
+        height: 100%;
+        padding: 9px 32px;
+        font-family: $font-base;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 25px;
+        color: #151515 !important;
+        background: #EAEBEE !important;
+        border: none !important;
+        border-radius: 6px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background-color 0.2s ease,
+          box-shadow 0.2s ease,
+          transform 0.15s ease;
+
+        &:hover {
+          background: #d7d8da !important;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $color-text-hover;
+          outline-offset: 3px;
+        }
+
+        &:active {
+          transform: translateY(1px);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__newsletter-form {
+      .tnp-field-button {
+        .tnp-submit {
+          width: 100%;
+          padding: 9px 8px;
+        }
+      }
+    }
   }
 
   &__middle {
