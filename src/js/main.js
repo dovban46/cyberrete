@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
       items.forEach((item, index) => {
         setTimeout(() => {
           item.classList.add('is-visible');
-        }, index * 220);
+        }, index * 140);
       });
 
       observer.unobserve(entry.target);
@@ -145,47 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   useCasesLists.forEach(list => {
     useCasesObserver.observe(list);
-  });
-});
-
-//use cases mouse reactive hover effect
-document.addEventListener('DOMContentLoaded', function() {
-  const useCasesCards = document.querySelectorAll('.use-cases__item');
-
-  if (!useCasesCards.length) return;
-
-  useCasesCards.forEach(card => {
-    card.addEventListener('mousemove', (event) => {
-      const rect = card.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      const xPercent = (x / rect.width) * 100;
-      const yPercent = (y / rect.height) * 100;
-
-      // Stronger blur when cursor moves toward card center.
-      const dx = x - rect.width / 2;
-      const dy = y - rect.height / 2;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const maxDistance = Math.sqrt((rect.width / 2) ** 2 + (rect.height / 2) ** 2);
-      const intensity = Math.max(0, 1 - distance / maxDistance);
-      const rotateY = (dx / (rect.width / 2)) * 3.5;
-      const rotateX = (-dy / (rect.height / 2)) * 2.8;
-      const glowStrength = 0.14 + intensity * 0.22;
-
-      card.style.setProperty('--mx', `${xPercent}%`);
-      card.style.setProperty('--my', `${yPercent}%`);
-      card.style.setProperty('--ry', `${rotateY.toFixed(2)}deg`);
-      card.style.setProperty('--rx', `${rotateX.toFixed(2)}deg`);
-      card.style.setProperty('--glow-alpha', glowStrength.toFixed(3));
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.setProperty('--mx', '50%');
-      card.style.setProperty('--my', '50%');
-      card.style.setProperty('--ry', '0deg');
-      card.style.setProperty('--rx', '0deg');
-      card.style.setProperty('--glow-alpha', '0.16');
-    });
   });
 });
 

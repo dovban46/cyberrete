@@ -1,21 +1,26 @@
 .use-cases {
+  width: 100%;
   padding: 0;
 
   &__container {
     position: relative;
-    max-width: 1920px;
-    margin: 0 auto;
-    min-height: 780px;
+    width: 100%;
+    max-width: 100%;
+    height: 686px;
+    min-height: 686px;
     overflow: hidden;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 120px 74px;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    box-sizing: border-box;
 
     &.js-animate {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1.2s ease, transform 1.2s ease;
+      transform: translateY(20px);
+      transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
       will-change: opacity, transform;
     }
 
@@ -29,135 +34,128 @@
     position: absolute;
     inset: 0;
     z-index: 0;
+    overflow: hidden;
 
     &::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: #09071880;
+      // #121426 @ 20% (як у макеті)
+      background: rgba(18, 20, 38, 0.2);
+      z-index: 1;
+      pointer-events: none;
     }
   }
 
+  // Макет: 1440×980, top −294 — масштаб від ширини в’юпорту, обрізка контейнером 686px.
   &__bg-image {
     position: absolute;
-    top: -100px;
-    left: -600px;
-    width: auto;
-    height: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
     max-width: none;
-    max-height: none;
+    bottom: 0;
+    object-fit: cover;
+    object-position: center center;
     display: block;
   }
 
   &__content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
+    max-width: 1340px;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
-    gap: 24px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 180px;
+    box-sizing: border-box;
   }
 
   &__title {
     margin: 0;
-    max-width: 350px;
+    width: 100%;
+    max-width: none;
+    text-align: center;
     font-size: 58px;
-    line-height: 70px;
+    line-height: 1.15;
     font-weight: 400;
     letter-spacing: -0.04em;
-    color: #F9FAFB;
+    color: #f9fafb;
   }
 
   &__list {
     width: 100%;
-    max-width: 416px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    perspective: 1200px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    box-sizing: border-box;
   }
 
   &__item {
-    width: 416px;
-    height: 202px;
-    backdrop-filter: blur(34px);
-    -webkit-backdrop-filter: blur(34px);
-    background: rgba(232, 232, 237, 0.5);
-    border-radius: 6px;
-    padding: 32px 32px 64px;
+    width: 100%;
+    min-height: 0;
+    background: #bbbec0e5;
+    border-radius: 12px;
+    padding: 32px 24px;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
-    isolation: isolate;
-    contain: paint;
     transition:
-      transform 0.35s ease,
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.35s ease,
-      background-color 0.35s ease;
-    will-change: transform;
-    backface-visibility: hidden;
-
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, var(--glow-alpha, 0.16)), transparent 55%);
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      pointer-events: none;
-    }
+      background-color 0.3s ease;
 
     &:hover {
-      transform: translateX(-18px);
-      background: rgba(232, 232, 237, 0.62);
-      box-shadow: 0 14px 32px rgba(9, 7, 24, 0.25);
+      transform: translateY(-8px);
+      box-shadow:
+        0 18px 40px rgba(18, 20, 38, 0.14),
+        0 4px 12px rgba(18, 20, 38, 0.08);
+      background: rgba(187, 190, 192, 0.95);
+    }
 
-      &::after {
-        opacity: 1;
-      }
+    &:active {
+      transform: translateY(-4px);
     }
   }
 
   &__item.js-use-cases-item {
     opacity: 0;
-    transform: translateX(84px);
-    filter: blur(10px);
+    transform: translateY(32px) scale(0.98);
     transition:
-      opacity 0.75s ease,
-      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-      filter 0.75s ease;
-    will-change: opacity, transform, filter;
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
   }
 
   &__item.js-use-cases-item.is-visible {
     opacity: 1;
-    transform: translateX(0);
-    filter: blur(0);
-  }
-
-  &__item.js-use-cases-item.is-visible:hover {
-    transform: translateX(-18px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  }
-
-  &__item:first-child {
-    background: rgba(232, 232, 237, 0.65);
+    transform: translateY(0) scale(1);
   }
 
   &__item-text {
     margin: 0;
-    color: #FFFFFF;
-    font-size: 48px;
+    color: $color-text-main;
+    font-size: clamp(22px, 2.1vw, 32px);
     font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.04em;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
   }
 }
 
-@media (min-width: 1920px) {
+@media (max-width: 1200px) {
   .use-cases {
-    &__bg-image {
-      top: -100px;
-      left: -480px;
+    &__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__title {
+      font-size: 48px;
+    }
+
+    &__item-text {
+      font-size: clamp(22px, 3vw, 28px);
     }
   }
 }
@@ -165,25 +163,11 @@
 @media (max-width: 1080px) {
   .use-cases {
     &__container {
-      min-height: 620px;
-      padding: 80px 16px;
+      padding: 40px 16px;
     }
 
-    &__bg-image {
-      right: 40px;
-    }
-
-    &__title {
-      font-size: 46px;
-      max-width: 340px;
-    }
-
-    &__list {
-      max-width: 416px;
-    }
-
-    &__item-text {
-      font-size: 40px;
+    &__content {
+      gap: 72px;
     }
   }
 }
@@ -191,42 +175,62 @@
 @media (max-width: 768px) {
   .use-cases {
     &__container {
-      min-height: 560px;
-      padding: 80px 16px;
+      padding: 48px 16px;
     }
 
+    // Фото на всю висоту секції (без vw-формули, що залишала сірий зазор).
     &__bg-image {
+      position: absolute;
+      inset: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      max-width: none;
+      transform: none;
+      object-fit: cover;
+      object-position: center center;
+      z-index: 0;
+    }
+
+    // Верхні 300px: градієнт для читабельності заголовка.
+    &__bg::before {
+      content: "";
+      position: absolute;
+      left: 0;
       right: 0;
-      left: -1000px;
+      top: 0;
+      height: 300px;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(360deg, rgba(6, 10, 47, 0) 0%, #060a2f 100%);
+    }
+
+    &__bg::after {
+      z-index: 2;
     }
 
     &__content {
-      flex-direction: column;
-      gap: 42px;
+      gap: 40px;
     }
 
     &__title {
-      font-size: 48px;
-      max-width: 290px;
+      font-size: 36px;
+      line-height: 1.2;
     }
 
     &__list {
-      max-width: 100%;
+      grid-template-columns: 1fr;
+      gap: 16px;
     }
 
     &__item {
-      width: 100%;
-      height: auto;
-      min-height: 140px;
-      padding: 37px 16px;
+      padding: 28px 20px;
     }
 
     &__item-text {
-      font-size: 28px;
-    }
-
-    &__item:first-child {
-      background: rgba(232, 232, 237, 0.5);
+      font-size: 26px;
     }
   }
 }
