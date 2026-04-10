@@ -117,6 +117,37 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// features: поява заголовка, опису, карток і кнопки з невеликим stagger
+document.addEventListener('DOMContentLoaded', function() {
+  const featuresSections = document.querySelectorAll('.js-features-section');
+
+  if (!featuresSections.length) return;
+
+  const featuresObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const items = entry.target.querySelectorAll('.js-stagger-item');
+
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('is-visible');
+        }, index * 160);
+      });
+
+      observer.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.2
+  });
+
+  featuresSections.forEach(section => {
+    featuresObserver.observe(section);
+  });
+});
+
 //use cases cards stagger animation
 document.addEventListener('DOMContentLoaded', function() {
   const useCasesLists = document.querySelectorAll('.use-cases__list');
