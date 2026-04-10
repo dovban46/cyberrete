@@ -148,6 +148,37 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// deployment: заголовок, лід, плашки репітера, футер — stagger як у features
+document.addEventListener('DOMContentLoaded', function() {
+  const deploymentSections = document.querySelectorAll('.js-deployment-section');
+
+  if (!deploymentSections.length) return;
+
+  const deploymentObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const items = entry.target.querySelectorAll('.js-stagger-item');
+
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('is-visible');
+        }, index * 160);
+      });
+
+      observer.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.2
+  });
+
+  deploymentSections.forEach(section => {
+    deploymentObserver.observe(section);
+  });
+});
+
 //use cases cards stagger animation
 document.addEventListener('DOMContentLoaded', function() {
   const useCasesLists = document.querySelectorAll('.use-cases__list');

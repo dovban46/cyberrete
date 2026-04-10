@@ -1,0 +1,142 @@
+.deployment {
+  padding: 120px 16px;
+
+  &__container {
+    max-width: 832px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .js-stagger-item {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .js-stagger-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0;
+    max-width: 100%;
+    font-size: 58px;
+    line-height: 62px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    color: $color-text-main;
+    text-transform: capitalize;
+  }
+
+  &__lead {
+    margin: 0;
+    max-width: 100%;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: 400;
+    color: $color-text-second;
+
+    p {
+      margin: 0;
+
+      &:not(:last-child) {
+        margin-bottom: 1em;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 13px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    margin: 0;
+  }
+
+  &__item-text {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 6px 10px;
+    background: #f1f1f1;
+    border: 1px solid #1a253926;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+    color: $color-text-main;
+    text-transform: capitalize;
+  }
+
+  &__footer {
+    margin: 0;
+    text-align: center;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: 400;
+    color: $color-text-main;
+  }
+}
+
+@media (max-width: 1080px) {
+  .deployment {
+    padding: 80px 16px;
+
+    &__title {
+      font-size: 48px;
+      line-height: 1.15;
+    }
+
+    &__lead,
+    &__footer {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .deployment {
+    padding: 64px 16px;
+
+    &__header {
+      align-items: stretch;
+      text-align: left;
+    }
+
+    &__title {
+      font-size: 36px;
+      line-height: 1.2;
+    }
+
+    &__lead,
+    &__footer {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    &__list {
+      justify-content: flex-start;
+    }
+  }
+}
