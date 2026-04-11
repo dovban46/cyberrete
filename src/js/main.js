@@ -621,27 +621,64 @@ window.addEventListener('resize', () => {
   featuresSwiperResizeTimer = setTimeout(updateFeaturesSwipers, 180);
 });
 
-//counter stats section
+//counter stats section (+ page-hero-metrics з data-format="comma")
 document.addEventListener('DOMContentLoaded', function() {
   const counters = document.querySelectorAll('.js-counter');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const formatFinalValue = (target, format) => {
+    if (format === 'comma') {
+      const n = Math.round(Number(target));
+      return Number.isNaN(n) ? String(target) : n.toLocaleString('en-US');
+    }
+    return String(Math.floor(target));
+  };
+
+  if (reduceMotion) {
+    counters.forEach((counter) => {
+      const rawTarget = counter.getAttribute('data-target');
+      const format = counter.getAttribute('data-format');
+      const target =
+        format === 'comma'
+          ? parseInt(String(rawTarget).replace(/\D/g, ''), 10)
+          : Number(rawTarget);
+      if (Number.isNaN(target)) return;
+      counter.textContent = formatFinalValue(target, format);
+    });
+    return;
+  }
 
   const runCounter = (counter) => {
-    const target = +counter.getAttribute('data-target');
-    const duration = 1500; 
+    const rawTarget = counter.getAttribute('data-target');
+    const format = counter.getAttribute('data-format');
+    const target =
+      format === 'comma'
+        ? parseInt(String(rawTarget).replace(/\D/g, ''), 10)
+        : Number(rawTarget);
+
+    if (Number.isNaN(target)) {
+      return;
+    }
+
+    const duration = 1500;
     let startTime = null;
 
     const step = (currentTime) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      
+
       const easeOutProgress = 1 - Math.pow(1 - progress, 3);
-      
-      counter.innerText = Math.floor(easeOutProgress * target);
+      const current = easeOutProgress * target;
+
+      counter.innerText =
+        format === 'comma'
+          ? Math.floor(current).toLocaleString('en-US')
+          : String(Math.floor(current));
 
       if (progress < 1) {
         window.requestAnimationFrame(step);
       } else {
-        counter.innerText = target;
+        counter.innerText = formatFinalValue(target, format);
       }
     };
 

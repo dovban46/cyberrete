@@ -14,6 +14,7 @@
 @import "./parts/workflow-comparison.scss";
 @import "./parts/content-timeline.scss";
 @import "./parts/layer-cards.scss";
+@import "./parts/page-hero-metrics.scss";
 @import "./parts/logo-slider.scss";
 @import "./parts/experts.scss";
 @import "./parts/blog.scss";
@@ -23,7 +24,6 @@
 
 html {
   scroll-behavior: smooth;
-  // overflow-x лише на body — інакше у Chrome/Edge зникає thumb вертикального скролбара.
 }
 
 html.mobile-menu-open,
@@ -51,8 +51,9 @@ body.mobile-menu-open {
   position: relative;
 }
 
-// Якщо перший блок не hero — щоб контент не заходив під хедер.
-#page.site > .header + section:not(.hero) {
+// Якщо перший блок не hero / не page-hero-metrics — відступ під absolute-хедер.
+// page-hero-metrics сам задає відступи (напр. 112px на мобілці в контейнері).
+#page.site > .header + section:not(.hero):not(.page-hero-metrics) {
   padding-top: calc(max(12px, env(safe-area-inset-top, 0px)) + 70px + 16px);
 }
 
