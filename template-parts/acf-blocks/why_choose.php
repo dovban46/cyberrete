@@ -33,7 +33,8 @@ $why_hover_url = get_template_directory_uri() . '/assets/images/hover-img.webp';
 
                             $item_title = get_sub_field( 'item_title' );
                             $item_text  = get_sub_field( 'item_text' );
-                            $number     = str_pad( (string) $item_index, 2, '0', STR_PAD_LEFT );
+                            $number_plain  = (string) $item_index;
+                            $number_padded = str_pad( $number_plain, 2, '0', STR_PAD_LEFT );
                         ?>
                             <article class="why-choose__card js-why-choose-card">
                                 <div
@@ -43,7 +44,10 @@ $why_hover_url = get_template_directory_uri() . '/assets/images/hover-img.webp';
                                 ></div>
 
                                 <div class="why-choose__card-inner">
-                                    <span class="why-choose__number"><?php echo esc_html( $number ); ?>.</span>
+                                    <span class="why-choose__number">
+                                        <span class="why-choose__number-part why-choose__number-part--desktop"><?php echo esc_html( $number_padded ); ?>.</span>
+                                        <span class="why-choose__number-part why-choose__number-part--mobile"><?php echo esc_html( $number_plain ); ?>.</span>
+                                    </span>
 
                                     <?php if ( $item_title ) : ?>
                                         <h3 class="why-choose__card-title"><?php echo esc_html( $item_title ); ?></h3>

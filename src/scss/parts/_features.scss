@@ -50,14 +50,35 @@
     }
   }
 
-  // До 4 карток у рядку, неповний ряд по центру (flex-wrap).
-  &__grid {
+  // Десктоп: сітка; ≤768px — Swiper (див. main.js), full-bleed без бокових падінгів.
+  &__grid-wrap {
+    margin: 0 auto 60px;
+    max-width: calc(4 * 305px + 3 * 24px);
+  }
+
+  &__slider {
+    overflow: visible;
+    width: 100%;
+  }
+
+  &__slider.swiper-initialized {
+    overflow: hidden;
+  }
+
+  &__track {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 24px;
-    margin: 0 auto 60px;
-    max-width: calc(4 * 305px + 3 * 24px);
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+
+  &__slide {
+    flex: 0 0 305px;
+    width: 305px;
+    max-width: 305px;
+    box-sizing: border-box;
   }
 
   &__card {
@@ -163,6 +184,7 @@
     border-radius: 50px;
     font-size: 21px;
     font-weight: 400;
+    text-transform: capitalize;
     text-decoration: none;
     background-color: $color-btn-bg;
     color: $color-btn-text;
@@ -198,7 +220,7 @@
       line-height: 24px;
     }
 
-    &__grid {
+    &__grid-wrap {
       margin-bottom: 48px;
       max-width: calc(2 * 305px + 24px);
     }
@@ -207,17 +229,15 @@
 
 @media (max-width: 768px) {
   .features {
-    padding: 64px 16px;
 
     &__header {
-      margin-bottom: 40px;
-      text-align: left;
+      margin-bottom: 42px;
     }
 
     &__title {
-      font-size: 36px;
+      font-size: 40px;
       line-height: 1.2;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
     }
 
     &__description {
@@ -225,26 +245,56 @@
       line-height: 22px;
     }
 
-    &__grid {
-      flex-direction: column;
-      align-items: stretch;
+    &__grid-wrap {
+      box-sizing: border-box;
+      width: 100vw;
+      max-width: none;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      margin-bottom: 42px;
+      padding: 0 0 0 16px;
+    }
+
+    &__slider {
       width: 100%;
-      max-width: 100%;
-      margin-bottom: 40px;
+      overflow: hidden;
+    }
+
+    &__track.swiper-wrapper {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 0;
+      column-gap: 0;
+    }
+
+    &__slide {
+      flex: 0 0 305px;
+      width: 305px !important;
+      max-width: 305px;
+      height: auto;
+    }
+
+    &__slide .features__card {
+      width: 305px;
+      max-width: 305px;
+      height: 327px;
+      min-height: 327px;
     }
 
     &__card {
-      width: 100%;
-      max-width: none;
-      height: auto;
-      min-height: 280px;
+      box-sizing: border-box;
+    }
+
+    &__footer{
+      text-align: left;
     }
 
     &__button {
       width: 100%;
-      max-width: 320px;
-      padding: 14px 32px;
-      font-size: 17px;
+      max-width: 260px;
+      padding: 17px 42px;
+      font-size: 21px;
+      letter-spacing: -0.04em;
       box-sizing: border-box;
     }
   }

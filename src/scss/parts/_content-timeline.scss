@@ -1,0 +1,327 @@
+// --timeline-scroll: 0–1 (JS) — відтінок лінії та кіл при скролі
+$timeline-node-size: 55px;
+$timeline-node-size-mobile: 46px;
+$timeline-line-a: #6265b8;
+$timeline-line-b: #9ebfe0;
+$timeline-node-gradient: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
+
+.content-timeline {
+  padding: 120px 16px;
+  background: $color-bg-primary;
+
+  &__container {
+    max-width: 1340px;
+    margin: 0 auto;
+  }
+
+  .js-stagger-item {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .js-stagger-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  // Кроки: поява по скролу (окремий IntersectionObserver)
+  .js-content-timeline-step {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .js-content-timeline-step.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 433px) minmax(0, 1fr);
+    gap: 33px;
+    align-items: start;
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 433px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 58px;
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    color: $color-text-main;
+    text-transform: capitalize;
+  }
+
+  &__lead {
+    margin: 0;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: 400;
+    color: $color-text-second;
+    max-width: 380px;
+
+    p {
+      margin: 0;
+
+      &:not(:last-child) {
+        margin-bottom: 1em;
+      }
+    }
+  }
+
+  &__main {
+    position: relative;
+    min-width: 0;
+  }
+
+  &__track {
+    --timeline-scroll: 0.5;
+    position: relative;
+  }
+
+  // top/height задає JS (від центру 1-го кола до центру останнього — без лінії «під» останнім)
+  &__rail {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    width: 2px;
+    margin-left: -1px;
+    bottom: auto;
+    border-radius: 1px;
+    transform-origin: top center;
+    pointer-events: none;
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transition:
+      clip-path 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s ease;
+
+    // Колір лінії змінюється при скролі (color-mix + fallback)
+    background: $timeline-line-a;
+    background: color-mix(
+      in srgb,
+      $timeline-line-a calc(40% + 60% * var(--timeline-scroll, 0.5)),
+      $timeline-line-b calc(60% - 60% * var(--timeline-scroll, 0.5))
+    );
+    box-shadow: 0 0 18px color-mix(in srgb, $timeline-line-a 35%, transparent);
+
+    &.is-rail-visible {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  &__list {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr #{$timeline-node-size} 1fr;
+    gap: 0 24px;
+    align-items: start;
+    padding-bottom: 50px;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  &__node {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+    width: $timeline-node-size;
+    height: $timeline-node-size;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: $timeline-node-gradient;
+    box-shadow:
+      0 0 0 1px rgba(98, 101, 184, 0.22),
+      0 6px 22px color-mix(in srgb, #6265b8 calc(18% + 22% * var(--timeline-scroll, 0.5)), transparent);
+    filter: saturate(calc(0.92 + 0.08 * var(--timeline-scroll, 0.5)))
+      hue-rotate(calc((1 - var(--timeline-scroll, 0.5)) * 14deg));
+    transform: scale(calc(0.96 + 0.04 * var(--timeline-scroll, 0.5)));
+    transition:
+      filter 0.45s ease,
+      transform 0.45s ease,
+      box-shadow 0.45s ease;
+  }
+
+  &__item-inner {
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 380px;
+    min-width: 0;
+    text-align: center;
+  }
+
+  &__item--left .content-timeline__item-inner {
+    grid-column: 1;
+    justify-self: center;
+  }
+
+  &__item--right .content-timeline__item-inner {
+    grid-column: 3;
+    justify-self: center;
+  }
+
+  &__item-title {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: $color-text-main;
+    text-transform: capitalize;
+  }
+
+  &__item-text {
+    margin: 0;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: 400;
+    color: $color-text-second;
+
+    p {
+      margin: 0;
+
+      &:not(:last-child) {
+        margin-bottom: 0.75em;
+      }
+    }
+  }
+}
+
+@media (max-width: 1080px) {
+  .content-timeline {
+    padding: 80px 16px;
+
+    &__title {
+      font-size: 48px;
+    }
+
+    &__lead,
+    &__item-text {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    &__item-title {
+      font-size: 24px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .content-timeline {
+
+    &__layout {
+      grid-template-columns: 1fr;
+      gap: 42px;
+    }
+
+    &__intro {
+      max-width: 433px;
+    }
+
+    &__title {
+      font-size: 40px;
+    }
+
+    &__rail {
+      left: auto;
+      margin-left: 0;
+      right: calc(#{$timeline-node-size-mobile} / 2 - 1px);
+    }
+
+    &__item {
+      grid-template-columns: minmax(0, 1fr) #{$timeline-node-size-mobile};
+      gap: 0 16px;
+      padding-bottom: 72px;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    &__item-inner {
+      align-items: flex-start;
+      text-align: left;
+      gap: 16px;
+    }
+
+    &__item-title {
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    &__item-text {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    &__item--left,
+    &__item--right {
+      .content-timeline__item-inner {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: stretch;
+        max-width: 380px;
+        width: 100%;
+      }
+
+      .content-timeline__node {
+        grid-column: 2;
+        grid-row: 1;
+        width: $timeline-node-size-mobile;
+        height: $timeline-node-size-mobile;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-timeline {
+    .js-stagger-item,
+    .js-content-timeline-step {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    &__rail {
+      clip-path: none !important;
+      opacity: 1 !important;
+    }
+
+    &__rail,
+    &__node {
+      filter: none !important;
+      box-shadow: 0 0 0 1px rgba(98, 101, 184, 0.22) !important;
+    }
+  }
+}

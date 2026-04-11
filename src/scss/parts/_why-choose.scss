@@ -169,6 +169,16 @@
     transition: color 0.65s cubic-bezier(0.33, 1, 0.68, 1);
   }
 
+  &__number-part {
+    &--desktop {
+      display: inline;
+    }
+
+    &--mobile {
+      display: none;
+    }
+  }
+
   &__card-title {
     font-family: $font-heading;
     max-width: 600px;
@@ -264,6 +274,16 @@
       font-weight: 400;
       letter-spacing: -0.02em;
       grid-row: auto;
+    }
+
+    &__number-part {
+      &--desktop {
+        display: none;
+      }
+
+      &--mobile {
+        display: inline;
+      }
     }
 
     &__card-title {

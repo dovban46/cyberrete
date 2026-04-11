@@ -4,6 +4,7 @@
  *
  * ACF: workflow_comparison_section
  *   - workflow_comparison_title (text)
+ *   - workflow_comparison_mobile_text (textarea) — лише ≤768px, під заголовком; на десктопі приховано
  *   - workflow_comparison_groups (repeater)
  *       - group_heading (text)
  *       - group_points (repeater)
@@ -29,15 +30,24 @@ $workflow_comparison_check_url = get_template_directory_uri() . '/assets/images/
             while ( have_rows( 'workflow_comparison_section' ) ) :
                 the_row();
 
-                $title  = get_sub_field( 'workflow_comparison_title' );
-                $footer = get_sub_field( 'workflow_comparison_footer' );
+                $title       = get_sub_field( 'workflow_comparison_title' );
+                $mobile_text = get_sub_field( 'workflow_comparison_mobile_text' );
+                $footer      = get_sub_field( 'workflow_comparison_footer' );
                 $button = get_sub_field( 'workflow_comparison_button' );
                 $image  = get_sub_field( 'workflow_comparison_image' );
                 ?>
 
-                <?php if ( $title ) : ?>
+                <?php if ( $title || $mobile_text ) : ?>
                     <header class="workflow-comparison__header">
-                        <h2 class="workflow-comparison__title js-stagger-item"><?php echo esc_html( $title ); ?></h2>
+                        <?php if ( $title ) : ?>
+                            <h2 class="workflow-comparison__title js-stagger-item"><?php echo esc_html( $title ); ?></h2>
+                        <?php endif; ?>
+
+                        <?php if ( $mobile_text ) : ?>
+                            <div class="workflow-comparison__mobile-text js-stagger-item">
+                                <?php echo wp_kses_post( wpautop( $mobile_text ) ); ?>
+                            </div>
+                        <?php endif; ?>
                     </header>
                 <?php endif; ?>
 

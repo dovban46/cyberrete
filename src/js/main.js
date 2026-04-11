@@ -210,6 +210,162 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// content_timeline: stagger лише для інтро; кроки — по скролу; лінія — геометрія JS + поява; --timeline-scroll для кольору
+document.addEventListener('DOMContentLoaded', function() {
+  const timelineSections = document.querySelectorAll('.js-content-timeline-section');
+  const tracks = document.querySelectorAll('.js-content-timeline-track');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (timelineSections.length) {
+    const timelineStaggerObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        const items = entry.target.querySelectorAll('.js-stagger-item');
+
+        items.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add('is-visible');
+          }, index * 160);
+        });
+
+        observer.unobserve(entry.target);
+      });
+    }, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    });
+
+    timelineSections.forEach(section => {
+      timelineStaggerObserver.observe(section);
+    });
+  }
+
+  if (!tracks.length) {
+    return;
+  }
+
+  function layoutTimelineRail(track) {
+    const rail = track.querySelector('.js-content-timeline-rail');
+    const nodes = track.querySelectorAll('.content-timeline__node');
+    if (!rail) return;
+
+    if (nodes.length < 2) {
+      rail.style.display = 'none';
+      rail.classList.remove('is-rail-visible');
+      return;
+    }
+
+    rail.style.display = '';
+    const tr = track.getBoundingClientRect();
+    const first = nodes[0].getBoundingClientRect();
+    const last = nodes[nodes.length - 1].getBoundingClientRect();
+    // Від верхнього краю першого кола — без прогалини між колом і лінією
+    const topPx = first.top - tr.top;
+    const lastCenterPx = last.top + last.height / 2 - tr.top;
+    // Коротше на 10px знизу від центру останнього кола
+    const h = Math.max(0, lastCenterPx - topPx - 10);
+
+    rail.style.top = `${topPx}px`;
+    rail.style.height = `${h}px`;
+    rail.style.bottom = 'auto';
+  }
+
+  function bindContentTimelineTrack(track) {
+    const rail = track.querySelector('.js-content-timeline-rail');
+
+    layoutTimelineRail(track);
+
+    const ro = new ResizeObserver(() => {
+      layoutTimelineRail(track);
+    });
+    ro.observe(track);
+
+    if (reduceMotion) {
+      if (rail) {
+        rail.classList.add('is-rail-visible');
+      }
+      track.querySelectorAll('.js-content-timeline-step').forEach((step) => {
+        step.classList.add('is-visible');
+      });
+    } else {
+      const trackIo = new IntersectionObserver((entries, obs) => {
+        entries.forEach((en) => {
+          if (!en.isIntersecting) return;
+          layoutTimelineRail(track);
+          requestAnimationFrame(() => {
+            if (rail) {
+              rail.classList.add('is-rail-visible');
+            }
+          });
+          obs.unobserve(track);
+        });
+      }, {
+        root: null,
+        rootMargin: '0px 0px -6% 0px',
+        threshold: 0.06
+      });
+
+      trackIo.observe(track);
+
+      track.querySelectorAll('.js-content-timeline-step').forEach((step) => {
+        const stepIo = new IntersectionObserver((entries, obs) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('is-visible');
+            obs.unobserve(e.target);
+          });
+        }, {
+          root: null,
+          rootMargin: '0px 0px -12% 0px',
+          threshold: 0.12
+        });
+        stepIo.observe(step);
+      });
+    }
+  }
+
+  tracks.forEach(bindContentTimelineTrack);
+
+  window.addEventListener(
+    'load',
+    () => {
+      tracks.forEach(layoutTimelineRail);
+    },
+    { once: true }
+  );
+
+  const updateTimelineScroll = () => {
+    if (reduceMotion) {
+      tracks.forEach((track) => {
+        track.style.setProperty('--timeline-scroll', '1');
+      });
+      return;
+    }
+
+    const vh = window.innerHeight || 1;
+
+    tracks.forEach((track) => {
+      const rect = track.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const dist = Math.abs(center - vh / 2);
+      const norm = Math.max(0, 1 - dist / (vh * 0.75));
+      const edgeBoost = rect.top < vh && rect.bottom > 0 ? 1 : 0.35;
+      const p = Math.max(0.12, Math.min(1, 0.55 * norm + 0.45 * edgeBoost));
+
+      track.style.setProperty('--timeline-scroll', p.toFixed(4));
+    });
+  };
+
+  updateTimelineScroll();
+  window.addEventListener('scroll', updateTimelineScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    updateTimelineScroll();
+    tracks.forEach(layoutTimelineRail);
+  }, { passive: true });
+});
+
 //use cases cards stagger animation
 document.addEventListener('DOMContentLoaded', function() {
   const useCasesLists = document.querySelectorAll('.use-cases__list');
@@ -415,6 +571,54 @@ document.addEventListener('DOMContentLoaded', function() {
       disabledClass: 'blog__nav-btn--disabled'
     });
   });
+});
+
+/**
+ * Features: на мобілці (≤768px) — Swiper, spaceBetween 16, autoplay + свайп; на десктопі екземпляр знищується.
+ */
+function updateFeaturesSwipers() {
+  if (typeof Swiper === 'undefined') return;
+
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  document.querySelectorAll('.js-features-slider').forEach((el) => {
+    if (el.swiper) {
+      el.swiper.destroy(true, true);
+    }
+
+    if (!isMobile) return;
+
+    const slides = el.querySelectorAll('.swiper-slide');
+    if (!slides.length) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    new Swiper(el, {
+      slidesPerView: 'auto',
+      spaceBetween: 16,
+      speed: 550,
+      grabCursor: true,
+      watchOverflow: true,
+      observer: true,
+      observeParents: true,
+      autoplay: reduceMotion
+        ? false
+        : {
+            delay: 4200,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+          },
+      rewind: true
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', updateFeaturesSwipers);
+
+let featuresSwiperResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(featuresSwiperResizeTimer);
+  featuresSwiperResizeTimer = setTimeout(updateFeaturesSwipers, 180);
 });
 
 //counter stats section

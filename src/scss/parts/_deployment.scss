@@ -117,26 +117,21 @@
 
 @media (max-width: 768px) {
   .deployment {
-    padding: 64px 16px;
+    padding: 80px 16px;
 
     &__header {
       align-items: stretch;
-      text-align: left;
     }
 
     &__title {
-      font-size: 36px;
+      font-size: 40px;
       line-height: 1.2;
     }
 
     &__lead,
     &__footer {
       font-size: 16px;
-      line-height: 22px;
-    }
-
-    &__list {
-      justify-content: flex-start;
+      line-height: 1.4;
     }
   }
 }
