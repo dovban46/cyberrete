@@ -12,6 +12,10 @@
  * @return array
  */
 function cyberrete_body_classes( $classes ) {
+	if ( ! is_front_page() ) {
+		$classes[] = 'is-not-front-page';
+	}
+
 	// Adds a class of hfeed to non-singular pages.
 	if ( ! is_singular() ) {
 		$classes[] = 'hfeed';

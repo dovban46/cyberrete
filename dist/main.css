@@ -204,6 +204,11 @@ html::-webkit-scrollbar-corner {
   background-color: rgb(41.9759036145, 59.734939759, 92.0240963855);
 }
 
+body.is-not-front-page .header {
+  background: rgba(242, 244, 247, 0.5019607843);
+  backdrop-filter: blur(50px);
+}
+
 @media (max-width: 1080px) {
   .header__logo {
     max-height: 32px;
@@ -238,6 +243,27 @@ html::-webkit-scrollbar-corner {
   }
   .header__action {
     display: none;
+  }
+  body.is-not-front-page .header {
+    position: relative;
+    top: auto;
+    left: auto;
+    -webkit-transform: none;
+            transform: none;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding: 0;
+    border-radius: 0 0 30px 30px;
+    background: rgba(241, 241, 241, 0.5019607843);
+    backdrop-filter: blur(50px);
+  }
+  body.is-not-front-page .header .header__container {
+    padding: 11px 21px;
   }
 }
 .mobile-menu {
@@ -3082,13 +3108,14 @@ html::-webkit-scrollbar-corner {
     font-size: 56px;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .page-hero-metrics {
     min-height: 0;
     max-height: none;
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: flex-start;
+    background-color: rgba(5, 7, 22, 0.9411764706);
   }
   .page-hero-metrics::before {
     display: none;
@@ -3099,8 +3126,8 @@ html::-webkit-scrollbar-corner {
     bottom: 0;
     left: 0;
     height: auto;
-    background: -webkit-gradient(linear, left bottom, left top, from(rgba(4, 5, 21, 0.8)), color-stop(109.56%, rgba(4, 5, 21, 0)));
-    background: linear-gradient(0deg, rgba(4, 5, 21, 0.8) 0%, rgba(4, 5, 21, 0) 109.56%);
+    background: -webkit-gradient(linear, left bottom, left top, from(rgba(5, 7, 22, 0.94)), color-stop(65%, rgba(5, 7, 22, 0.55)), color-stop(95%, rgba(5, 7, 22, 0.12)), to(rgba(5, 7, 22, 0)));
+    background: linear-gradient(0deg, rgba(5, 7, 22, 0.94) 0%, rgba(5, 7, 22, 0.55) 65%, rgba(5, 7, 22, 0.12) 95%, rgba(5, 7, 22, 0) 100%);
   }
   .page-hero-metrics__bg {
     background-position: calc(50% - 50px) bottom;
@@ -3111,7 +3138,7 @@ html::-webkit-scrollbar-corner {
             transform-origin: calc(50% - 50px) bottom;
   }
   .page-hero-metrics__container {
-    padding: 112px 16px 44px;
+    padding: 132px 16px 44px;
   }
   .page-hero-metrics__inner {
     -webkit-box-align: center;
@@ -3173,6 +3200,11 @@ html::-webkit-scrollbar-corner {
   .page-hero-metrics__stat-text {
     font-size: 16px;
     line-height: 22px;
+  }
+  body.is-not-front-page .page-hero-metrics {
+    margin-top: -25px;
+    position: relative;
+    z-index: 1;
   }
 }
 @media (prefers-reduced-motion: reduce) {
