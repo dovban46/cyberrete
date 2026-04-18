@@ -49,7 +49,7 @@
     width: 100%;
     max-width: 1372px;
     margin: 0 auto;
-    padding: 72px 16px 68px;
+    padding: 132px 16px 48px;
 
     &.js-animate {
       opacity: 0;
@@ -117,14 +117,10 @@
     align-items: stretch;
     box-sizing: border-box;
     width: 100%;
-    margin-top: 0;
+    margin-top: 24px;
     gap: 0;
     background: transparent;
     border-top: 1px solid #f1f1f1;
-  }
-
-  .page-hero-metrics__inner:has(.page-hero-metrics__intro) .page-hero-metrics__stats {
-    margin-top: 90px;
   }
 
   &__stat {
@@ -237,12 +233,11 @@
     }
 
     &__container {
-      padding: 132px 16px 44px;
+      padding: 90px 16px 44px;
     }
 
     &__inner {
       align-items: center;
-      text-align: center;
       gap: 0;
     }
 
@@ -252,7 +247,7 @@
 
     &__title {
       max-width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 17px;
       font-size: 48px;
     }
 
@@ -269,10 +264,7 @@
       gap: 0;
       background: transparent;
       border-top: 1px solid #f1f1f1;
-    }
-
-    .page-hero-metrics__inner:has(.page-hero-metrics__intro) .page-hero-metrics__stats {
-      margin-top: 54px;
+      margin-top: 30px;
     }
 
     &__stat {
