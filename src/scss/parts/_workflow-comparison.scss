@@ -1,6 +1,7 @@
-// Пропорції колонок від контейнера 1340: ліва 366, права 949, відступ 25.
 $workflow-comparison-max: 1340px;
-$workflow-comparison-gap: 25px;
+$workflow-comparison-stage-max-h: 600px;
+$workflow-comparison-card-w: 423px;
+$workflow-comparison-card-h: 350px;
 
 .workflow-comparison {
   padding: 120px 16px;
@@ -25,23 +26,41 @@ $workflow-comparison-gap: 25px;
     transform: translateY(0);
   }
 
-  &__header {
-    margin: 0 0 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
+  // Заголовок + інтро + CTA в один ряд
+  &__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) auto auto;
+    align-items: end;
+    gap: 24px;
+    margin-bottom: 60px;
   }
 
-  &__mobile-text {
-    display: none;
-    width: 100%;
-    max-width: 780px;
+  &__title {
+    margin: 0;
+    min-width: 0;
+    font-size: 58px;
+    line-height: 1.12;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    color: $color-text-main;
+    text-transform: capitalize;
+  }
+
+  &__title-gradient {
+    background: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__intro {
+    min-width: 0;
+    max-width: 370px;
     font-size: 17px;
     line-height: 25px;
     font-weight: 400;
     color: $color-text-second;
-    text-align: center;
 
     p {
       margin: 0;
@@ -52,132 +71,23 @@ $workflow-comparison-gap: 25px;
     }
   }
 
-  &__title {
-    margin: 0;
-    max-width: 100%;
-    font-size: 58px;
-    line-height: 70px;
-    font-weight: 400;
-    letter-spacing: -0.04em;
-    max-width: 780px;
-    text-align: center;
-    color: $color-text-main;
-    text-transform: capitalize;
-  }
-
-  &__layout {
-    display: grid;
-    grid-template-columns: minmax(0, 366fr) minmax(0, 949fr);
-    gap: $workflow-comparison-gap;
-    align-items: stretch;
-  }
-
-  &__content {
-    display: grid;
-    grid-template-rows: auto minmax(52px, 1fr) auto;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-    min-width: 0;
-    min-height: 731px;
-  }
-
-  &__groups {
-    grid-row: 1;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(28px, 4.2vw, 42px);
-    min-width: 0;
-  }
-
-  &__group {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  &__group-heading {
-    margin: 0;
-    font-size: 28px;
-    line-height: 1.1;
-    font-weight: 400;
-    letter-spacing: -0.04em;
-    color: $color-text-main;
-    text-transform: capitalize;
-  }
-
-  &__points {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  &__point {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  &__point-icon-wrap {
+  &__cta-wrap {
     flex-shrink: 0;
-    box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f9fafb;
-    border: 1px solid #1a253926;
-    border-radius: 4px;
+    justify-self: end;
   }
 
-  &__point-icon {
-    display: block;
-    width: 10px;
-    height: 10px;
-    object-fit: contain;
-  }
-
-  &__point-text {
-    flex: 1 1 auto;
-    min-width: 0;
-    font-size: 17px;
-    line-height: 25px;
-    font-weight: 400;
-    color: $color-text-second;
-  }
-
-  &__footer {
-    grid-row: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-    flex-shrink: 0;
-    align-self: stretch;
-  }
-
-  &__footer-text {
-    margin: 0;
-    font-size: 17px;
-    line-height: 25px;
-    font-weight: 400;
-    color: $color-text-main;
-  }
-
-  &__button {
+  &__cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 17px 66px 17px 80px;
+    padding: 17px 52px;
     border-radius: 50px;
     font-size: 21px;
     font-weight: 400;
     letter-spacing: -0.04em;
     text-transform: capitalize;
     text-decoration: none;
+    white-space: nowrap;
     background-color: $color-btn-bg;
     color: $color-btn-text;
     transition:
@@ -198,134 +108,280 @@ $workflow-comparison-gap: 25px;
     }
   }
 
-  &__media {
-    min-width: 0;
-    min-height: 731px;
+  // Фон + картки: max 1340×600
+  &__stage {
+    max-width: $workflow-comparison-max;
+    margin: 0 auto;
+    width: 100%;
+    min-height: $workflow-comparison-stage-max-h;
+    height: auto;
+    max-height: none;
+    border-radius: 16px;
+    background-color: #e8eaef;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    padding: 16px;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     justify-content: center;
-  }
-
-  &__figure {
-    margin: 0;
+    gap: 19px;
     width: 100%;
     max-width: 100%;
-    height: 731px;
-    border-radius: 6px;
-    overflow: hidden;
-    display: block;
-    box-sizing: border-box;
   }
 
-  &__image {
-    display: block;
+  &__card {
+    box-sizing: border-box;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+    max-width: $workflow-comparison-card-w;
+    min-height: $workflow-comparison-card-h;
+    margin-top: 0;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: #ffffff;
+    border: 1px solid #f9fafb;
+    border-radius: 20px;
+    align-self: flex-start;
+  }
+
+  &__card--offset {
+    margin-top: 120px;
+  }
+
+  &__group-heading {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: $color-text-main;
+    text-transform: capitalize;
+  }
+
+  &__group-text {
+    margin: 0;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: 400;
+    color: $color-text-main;
+
+    p {
+      margin: 0;
+
+      &:not(:last-child) {
+        margin-bottom: 0.65em;
+      }
+    }
+  }
+
+  &__points {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  &__point {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &__point-icon-wrap {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+    border: 1px solid rgba(26, 37, 57, 0.15);
+    border-radius: 4px;
+    margin-top: 2px;
+  }
+
+  &__point-icon {
+    display: block;
+    width: 10px;
+    height: 10px;
+    object-fit: contain;
+  }
+
+  &__point-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: 400;
+    color: $color-text-second;
+  }
+
+  &__card-more {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 10px 19px 10px 28px;
+    border-radius: 999px;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.2;
+    text-decoration: none;
+    text-align: center;
+    color: $color-text-main;
+    border: 1px solid #D8DADE;
+    background: #F9FAFB;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background-color 0.2s ease;
+
+    &:hover {
+      border-color: $color-text-hover;
+      color: $color-text-hover;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-text-hover;
+      outline-offset: 2px;
+    }
   }
 }
 
 @media (max-width: 1080px) {
   .workflow-comparison {
-    padding: 80px 16px;
-
-    &__header {
-      margin-bottom: 48px;
+    &__top {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        'title title'
+        'intro cta';
     }
 
     &__title {
+      grid-area: title;
       font-size: 48px;
-      line-height: 1.15;
     }
 
-    &__group-heading {
-      font-size: 19px;
+    &__intro {
+      grid-area: intro;
+      align-self: center;
     }
 
-    &__point-text,
-    &__footer-text {
-      font-size: 16px;
-      line-height: 24px;
-    }
-
-    &__button {
-      font-size: 18px;
-      padding: 15px 36px;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .workflow-comparison {
-
-    &__header {
-      margin-bottom: 42px;
-      align-items: flex-start;
-      gap: 24px;
-    }
-
-    &__title {
-      text-align: left;
-      font-size: 40px;
-      line-height: 1.1;
-    }
-
-    &__mobile-text {
-      display: block;
-      text-align: left;
-      max-width: none;
-      font-size: 16px;
-    }
-
-    &__layout {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-
-    &__content {
-      display: flex;
-      flex-direction: column;
-      gap: 52px;
-      min-height: 0;
-    }
-
-    &__groups {
-      grid-row: unset;
-      gap: 42px;
-    }
-
-    &__footer {
-      grid-row: unset;
-    }
-
-    &__media {
-      display: none;
-    }
-
-    &__group-heading{
-      font-size: 28px;
-    }
-
-    &__point-text,
-    &__footer-text {
+    &__intro,
+    &__group-text,
+    &__point-text {
       font-size: 16px;
       line-height: 22px;
     }
 
-    &__footer{
+    &__cta-wrap {
+      grid-area: cta;
+      justify-self: end;
+      align-self: center;
+    }
+
+    &__card--offset {
+      margin-top: 80px;
+    }
+
+    &__stage {
+      min-height: 0;
+      max-height: none;
+      height: auto;
+      padding: 0;
+      background-image: none !important;
+      background-color: transparent;
+      overflow: visible;
+    }
+
+    &__cards {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: clamp(18px, 3vw, 28px);
+      width: 100%;
+      max-width: min(100%, 640px);
       margin: 0 auto;
     }
 
-    &__footer-text{
-      font-size: 17px;
+    &__card {
+      width: 100%;
+      max-width: none;
+      min-height: 0;
+      align-self: stretch;
     }
 
-    &__button {
-      width: 100%;
-      padding: 17px 66px 17px 80px;
-      font-size: 21px;
-      box-sizing: border-box;
+    &__card--offset {
+      margin-top: 0;
     }
+  }
+}
+
+@media (max-width: 767px) {
+  .workflow-comparison {
+    padding: 80px 16px;
+
+    &__top {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 24px;
+      margin-bottom: 42px;
+    }
+
+    &__title {
+      max-width: 500px;
+      font-size: 40px;
+      line-height: 1.12;
+    }
+
+    &__intro {
+      text-align: left;
+      align-self: flex-start;
+    }
+
+    &__cta-wrap {
+      justify-self: stretch;
+      width: 100%;
+    }
+
+    &__cta {
+      width: 100%;
+      box-sizing: border-box;
+      white-space: normal;
+      text-align: center;
+    }
+
+    &__stage {
+      padding: 0;
+    }
+
+    &__cards {
+      max-width: 100%;
+      gap: 16px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workflow-comparison .js-stagger-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

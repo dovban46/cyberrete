@@ -33,9 +33,11 @@ if ( is_array( $contact_section ) ) {
 if ( ! $title && ! $text && ! $form_raw ) {
 	return;
 }
+
+$is_contact_page = is_page( 'contact' ) || is_page_template( 'page-contact.php' );
 ?>
 
-<section class="contact">
+<section class="contact<?php echo $is_contact_page ? ' contact--page' : ''; ?>">
 	<div class="contact__container js-animate">
 
 		<div class="contact__layout">
