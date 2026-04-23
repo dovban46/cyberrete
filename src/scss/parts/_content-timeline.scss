@@ -70,6 +70,10 @@ $timeline-node-gradient: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
     text-transform: capitalize;
   }
 
+  &__title-gradient {
+    color: inherit;
+  }
+
   &__lead {
     margin: 0;
     font-size: 17px;
@@ -216,6 +220,14 @@ $timeline-node-gradient: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
       }
     }
   }
+}
+
+.content-timeline--technology .content-timeline__title-gradient {
+  background: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 @media (max-width: 1080px) {

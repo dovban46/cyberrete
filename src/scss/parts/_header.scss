@@ -148,7 +148,9 @@ body.is-not-front-page .header {
   background: #f2f4f780;
   -webkit-backdrop-filter: blur(50px);
   backdrop-filter: blur(50px);
+}
 
+body.page--product .header {
   .header__btn {
     background-color: $color-btn-bg;
     color: $color-btn-text;

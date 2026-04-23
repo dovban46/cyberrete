@@ -16,6 +16,17 @@ function cyberrete_body_classes( $classes ) {
 		$classes[] = 'is-not-front-page';
 	}
 
+	// Adds page--[slug] class for singular pages.
+	if ( is_page() ) {
+		$page_id   = get_queried_object_id();
+		$page_slug = $page_id ? (string) get_post_field( 'post_name', $page_id ) : '';
+		$page_slug = sanitize_html_class( $page_slug );
+
+		if ( '' !== $page_slug ) {
+			$classes[] = 'page--' . $page_slug;
+		}
+	}
+
 	// Adds a class of hfeed to non-singular pages.
 	if ( ! is_singular() ) {
 		$classes[] = 'hfeed';

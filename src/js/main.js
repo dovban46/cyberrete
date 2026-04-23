@@ -573,6 +573,123 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// technology stack: stagger reveal + slider with half-next-slide step
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('.js-technology-stack-section');
+  if (sections.length) {
+    const technologyObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        const items = entry.target.querySelectorAll('.js-stagger-item');
+        items.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add('is-visible');
+          }, index * 140);
+        });
+
+        observer.unobserve(entry.target);
+      });
+    }, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.12
+    });
+
+    sections.forEach((section) => {
+      technologyObserver.observe(section);
+    });
+  }
+
+  if (typeof Swiper === 'undefined') return;
+
+  const sliders = document.querySelectorAll('.js-technology-stack-slider');
+  if (!sliders.length) return;
+
+  sliders.forEach((sliderEl) => {
+    const root = sliderEl.closest('.js-technology-stack-section');
+    if (!root) return;
+
+    const prevBtn = root.querySelector('.js-technology-stack-prev');
+    const nextBtn = root.querySelector('.js-technology-stack-next');
+    if (!prevBtn || !nextBtn) return;
+
+    const swiper = new Swiper(sliderEl, {
+      loop: false,
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+      speed: 420,
+      allowTouchMove: true,
+      watchOverflow: true,
+      watchSlidesProgress: true,
+      observer: true,
+      observeParents: true,
+      freeMode: {
+        enabled: true,
+        momentum: false
+      }
+    });
+
+    const updateButtons = () => {
+      const isPrevDisabled = swiper.isBeginning;
+      const isNextDisabled = swiper.isEnd;
+
+      prevBtn.classList.toggle('technology-stack__nav-btn--disabled', isPrevDisabled);
+      prevBtn.setAttribute('aria-disabled', isPrevDisabled ? 'true' : 'false');
+
+      nextBtn.classList.toggle('technology-stack__nav-btn--disabled', isNextDisabled);
+      nextBtn.setAttribute('aria-disabled', isNextDisabled ? 'true' : 'false');
+    };
+
+    const getSlideStep = () => {
+      const firstSlide = swiper.slides && swiper.slides[0] ? swiper.slides[0] : null;
+      if (!firstSlide) return 180;
+      const isMobile = window.matchMedia('(max-width: 900px)').matches;
+      if (isMobile) {
+        return Math.max(80, Math.round(firstSlide.offsetWidth + 24));
+      }
+      return Math.max(48, Math.round(firstSlide.offsetWidth * 0.4));
+    };
+
+    const moveBy = (delta) => {
+      const current = swiper.getTranslate();
+      const min = swiper.minTranslate();
+      const max = swiper.maxTranslate();
+      const target = Math.max(max, Math.min(min, current + delta));
+
+      swiper.setTransition(420);
+      swiper.setTranslate(target);
+      swiper.updateProgress(target);
+      swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+      swiper.updateProgress();
+      updateButtons();
+    };
+
+    prevBtn.addEventListener('click', () => {
+      if (prevBtn.classList.contains('technology-stack__nav-btn--disabled')) return;
+      moveBy(getSlideStep());
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (nextBtn.classList.contains('technology-stack__nav-btn--disabled')) return;
+      moveBy(-getSlideStep());
+    });
+
+    swiper.on('setTranslate', updateButtons);
+    swiper.on('transitionEnd', updateButtons);
+    swiper.on('touchEnd', updateButtons);
+    swiper.on('resize', () => {
+      swiper.update();
+      swiper.updateProgress();
+      updateButtons();
+    });
+    swiper.on('afterInit', updateButtons);
+
+    updateButtons();
+  });
+});
+
 /**
  * Features: на мобілці (≤768px) — Swiper, spaceBetween 16, autoplay + свайп; на десктопі екземпляр знищується.
  */

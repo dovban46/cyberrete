@@ -179,6 +179,7 @@
       }
     }
   }
+
 }
 
 @media (min-width: 768px) {
@@ -195,6 +196,27 @@
 
     &__stat-value {
       font-size: 56px;
+    }
+  }
+
+  .page-hero-metrics--technology {
+    .page-hero-metrics__bg {
+      background-position: calc(50% - 50px) bottom;
+      background-size: cover;
+      transform: scale(1);
+      transform-origin: calc(50% - 50px) bottom;
+    }
+  }
+}
+
+@media (min-width: 1081px) {
+  .page-hero-metrics--technology {
+    .page-hero-metrics__bg {
+      inset: 0;
+      background-position: center center;
+      background-size: 100% 100%;
+      transform: none;
+      transform-origin: center center;
     }
   }
 }

@@ -17,8 +17,13 @@
  *
  * @package Cyberrete
  */
+
+$queried_id            = (int) get_queried_object_id();
+$queried_slug          = $queried_id ? (string) get_post_field( 'post_name', $queried_id ) : '';
+$is_technology_context = is_page( 'technology' ) || is_page_template( 'page-technology.php' ) || ( '' !== $queried_slug && false !== strpos( $queried_slug, 'technology' ) );
+$hero_modifier_class   = $is_technology_context ? ' page-hero-metrics--technology' : '';
 ?>
-<section class="page-hero-metrics">
+<section class="page-hero-metrics<?php echo esc_attr( $hero_modifier_class ); ?>">
 	<?php if ( have_rows( 'page_hero_metrics_section' ) ) : ?>
 		<?php
 		$row_num = 0;

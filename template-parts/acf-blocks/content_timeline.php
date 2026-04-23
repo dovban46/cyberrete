@@ -15,8 +15,42 @@
  *
  * @package Cyberrete
  */
+
+if ( ! function_exists( 'cyberrete_content_timeline_title_html' ) ) {
+	/**
+	 * Highlight 4th and 5th words in title.
+	 *
+	 * @param string $title Raw title.
+	 * @return string Safe HTML.
+	 */
+	function cyberrete_content_timeline_title_html( $title ) {
+		$title = wp_strip_all_tags( (string) $title );
+		$words = preg_split( '/\s+/u', trim( $title ), -1, PREG_SPLIT_NO_EMPTY );
+
+		if ( empty( $words ) ) {
+			return '';
+		}
+
+		$html_words = array();
+		foreach ( $words as $index => $word ) {
+			$word_number = $index + 1;
+			if ( 4 === $word_number || 5 === $word_number ) {
+				$html_words[] = '<span class="content-timeline__title-gradient">' . esc_html( $word ) . '</span>';
+			} else {
+				$html_words[] = esc_html( $word );
+			}
+		}
+
+		return implode( ' ', $html_words );
+	}
+}
+
+$queried_id             = (int) get_queried_object_id();
+$queried_slug           = $queried_id ? (string) get_post_field( 'post_name', $queried_id ) : '';
+$is_technology_context  = is_page( 'technology' ) || is_page_template( 'page-technology.php') || ( '' !== $queried_slug && false !== strpos( $queried_slug, 'technology' ) );
+$section_modifier_class = $is_technology_context ? ' content-timeline--technology' : '';
 ?>
-<section class="content-timeline">
+<section class="content-timeline<?php echo esc_attr( $section_modifier_class ); ?>">
     <div class="content-timeline__container js-content-timeline-section">
 
         <?php if ( have_rows( 'content_timeline_section' ) ) : ?>
@@ -31,7 +65,18 @@
                 <div class="content-timeline__layout">
                     <div class="content-timeline__intro">
                         <?php if ( $title ) : ?>
-                            <h2 class="content-timeline__title js-stagger-item"><?php echo esc_html( $title ); ?></h2>
+                            <h2 class="content-timeline__title js-stagger-item">
+                                <?php
+                                echo wp_kses(
+                                    cyberrete_content_timeline_title_html( $title ),
+                                    array(
+                                        'span' => array(
+                                            'class' => true,
+                                        ),
+                                    )
+                                );
+                                ?>
+                            </h2>
                         <?php endif; ?>
 
                         <?php if ( $intro ) : ?>
