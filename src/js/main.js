@@ -482,6 +482,14 @@ function initContentSlider(sliderEl, config) {
     });
   };
 
+  const autoplayConfig = Object.prototype.hasOwnProperty.call(config, 'autoplay')
+    ? config.autoplay
+    : {
+        delay: 5000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      };
+
   const swiper = new Swiper(sliderEl, {
     loop: false,
     slidesPerView: 1,
@@ -492,11 +500,7 @@ function initContentSlider(sliderEl, config) {
     watchSlidesProgress: true,
     observer: true,
     observeParents: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true
-    },
+    autoplay: autoplayConfig,
     navigation: {
       prevEl,
       nextEl,
@@ -570,6 +574,95 @@ document.addEventListener('DOMContentLoaded', function() {
       paginationClass: 'blog__pagination',
       disabledClass: 'blog__nav-btn--disabled'
     });
+  });
+
+  document.querySelectorAll('.js-secure-deployment-slider').forEach((sliderEl) => {
+    const root = sliderEl.closest('.secure-deployment__container');
+    if (!root) return;
+
+    const prevBtns = root.querySelectorAll('.js-secure-deployment-prev');
+    const nextBtns = root.querySelectorAll('.js-secure-deployment-next');
+    if (!prevBtns.length || !nextBtns.length) return;
+
+    const prevBtn = prevBtns[0];
+    const nextBtn = nextBtns[0];
+
+    const swiper = new Swiper(sliderEl, {
+      loop: false,
+      slidesPerView: 'auto',
+      slidesPerGroup: 1,
+      spaceBetween: 20,
+      speed: 520,
+      watchOverflow: true,
+      watchSlidesProgress: true,
+      observer: true,
+      observeParents: true,
+      autoplay: false,
+      navigation: {
+        prevEl: prevBtn,
+        nextEl: nextBtn,
+        disabledClass: 'secure-deployment__nav-btn--disabled'
+      },
+      pagination: {
+        el: sliderEl.querySelector('.secure-deployment__pagination'),
+        clickable: false
+      },
+      breakpoints: {
+        1200: {
+          spaceBetween: 24
+        }
+      },
+      on: {
+        init(s) {
+          s.navigation.update();
+          s.updateProgress();
+        },
+        slideChange(s) {
+          s.updateProgress();
+        },
+        resize(s) {
+          s.update();
+          s.navigation.update();
+          s.updateProgress();
+        }
+      }
+    });
+
+    const syncNav = () => {
+      const prevDisabled = swiper.isBeginning;
+      const nextDisabled = swiper.isEnd;
+
+      prevBtns.forEach((btn) => {
+        btn.classList.toggle('secure-deployment__nav-btn--disabled', prevDisabled);
+        btn.setAttribute('aria-disabled', prevDisabled ? 'true' : 'false');
+      });
+
+      nextBtns.forEach((btn) => {
+        btn.classList.toggle('secure-deployment__nav-btn--disabled', nextDisabled);
+        btn.setAttribute('aria-disabled', nextDisabled ? 'true' : 'false');
+      });
+    };
+
+    prevBtns.forEach((btn, index) => {
+      if (index === 0) return;
+      btn.addEventListener('click', () => {
+        if (!swiper.isBeginning) swiper.slidePrev();
+      });
+    });
+
+    nextBtns.forEach((btn, index) => {
+      if (index === 0) return;
+      btn.addEventListener('click', () => {
+        if (!swiper.isEnd) swiper.slideNext();
+      });
+    });
+
+    swiper.on('setTranslate', syncNav);
+    swiper.on('transitionEnd', syncNav);
+    swiper.on('slideChange', syncNav);
+    swiper.on('resize', syncNav);
+
+    syncNav();
   });
 });
 
