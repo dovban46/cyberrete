@@ -11,6 +11,19 @@
     margin: 0 0 60px;
   }
 
+  &__category-description {
+    margin: 16px auto 0;
+    max-width: 760px;
+    font-size: 17px;
+    line-height: 1.5;
+    color: $color-text-second;
+    text-align: center;
+
+    p {
+      margin: 0;
+    }
+  }
+
   &__title {
     margin: 0;
     font-size: 58px;
@@ -251,6 +264,14 @@
       color: #0f172a;
     }
   }
+
+  &__empty {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.45;
+    color: $color-text-second;
+    text-align: center;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -272,6 +293,13 @@
     &__title {
       font-size: 48px;
       line-height: 1.1;
+      text-align: left;
+    }
+
+    &__category-description {
+      margin: 12px 0 0;
+      max-width: none;
+      font-size: 16px;
       text-align: left;
     }
 
