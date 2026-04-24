@@ -831,6 +831,184 @@ window.addEventListener('resize', () => {
   featuresSwiperResizeTimer = setTimeout(updateFeaturesSwipers, 180);
 });
 
+// how-it-works: tabs + circular positioning for nested items.
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('.js-how-it-works');
+  if (!sections.length) return;
+
+  const isMobile = () => window.matchMedia('(max-width: 1080px)').matches;
+
+  const updateMobilePointsLine = (panel) => {
+    if (!panel || !isMobile()) return;
+
+    const pointsWrap = panel.querySelector('.how-it-works__points');
+    if (!pointsWrap) return;
+
+    const points = Array.from(pointsWrap.querySelectorAll('.js-how-it-works-point'));
+    if (!points.length) return;
+
+    const firstPoint = points[0];
+    const lastPoint = points[points.length - 1];
+    const firstDot = firstPoint ? firstPoint.querySelector('.how-it-works__point-dot') : null;
+    const lastDot = lastPoint ? lastPoint.querySelector('.how-it-works__point-dot') : null;
+    if (!firstDot || !lastDot) return;
+
+    const wrapTop = pointsWrap.getBoundingClientRect().top;
+    const firstRect = firstDot.getBoundingClientRect();
+    const lastRect = lastDot.getBoundingClientRect();
+    const firstCenter = firstRect.top - wrapTop + firstRect.height / 2;
+    const lastCenter = lastRect.top - wrapTop + lastRect.height / 2;
+    const lineHeight = Math.max(0, lastCenter - firstCenter);
+
+    pointsWrap.style.setProperty('--how-it-works-line-top', `${firstCenter}px`);
+    pointsWrap.style.setProperty('--how-it-works-line-height', `${lineHeight}px`);
+  };
+
+  const positionPoints = (panel) => {
+    if (!panel) return;
+    if (isMobile()) {
+      updateMobilePointsLine(panel);
+      return;
+    }
+
+    const orbit = panel.querySelector('.js-how-it-works-orbit');
+    const ring = panel.querySelector('.how-it-works__ring');
+    const points = Array.from(panel.querySelectorAll('.js-how-it-works-point'));
+    if (!orbit || !ring || !points.length) return;
+
+    const orbitRect = orbit.getBoundingClientRect();
+    const ringRect = ring.getBoundingClientRect();
+
+    const cx = ringRect.left - orbitRect.left + ringRect.width / 2;
+    const cy = ringRect.top - orbitRect.top + ringRect.height / 2;
+    const radius = ringRect.width / 2;
+    const count = points.length;
+
+    const maxForbiddenBottomDeg = 70;
+    const minForbiddenBottomDeg = 20;
+    const adapt = Math.max(0, Math.min(1, (count - 4) / 6));
+    const forbiddenBottomDeg =
+      maxForbiddenBottomDeg - (maxForbiddenBottomDeg - minForbiddenBottomDeg) * adapt;
+
+    const bottomCenterDeg = 90;
+    const forbiddenStart = bottomCenterDeg - forbiddenBottomDeg / 2;
+    const forbiddenEnd = bottomCenterDeg + forbiddenBottomDeg / 2;
+
+    const segmentAStart = -90;
+    const segmentAEnd = forbiddenStart;
+    const segmentBStart = forbiddenEnd;
+    const segmentBEnd = 270;
+    const segmentALength = segmentAEnd - segmentAStart;
+    const segmentBLength = segmentBEnd - segmentBStart;
+    const totalArc = segmentALength + segmentBLength;
+
+    const angleFromProgress = (progress) => {
+      const travel = totalArc * progress;
+      if (travel <= segmentALength) {
+        return segmentAStart + travel;
+      }
+      return segmentBStart + (travel - segmentALength);
+    };
+
+    points.forEach((point, index) => {
+      const progress = count <= 1 ? 0.5 : (index + 0.5) / count;
+      const angleDeg = angleFromProgress(progress);
+      const angleRad = (angleDeg * Math.PI) / 180;
+      const anchorX = cx + radius * Math.cos(angleRad);
+      const anchorY = cy + radius * Math.sin(angleRad);
+      const dx = anchorX - cx;
+      const side = dx >= 0 ? 'left' : 'right';
+
+      point.style.left = `${anchorX}px`;
+      point.style.top = `${anchorY}px`;
+      point.dataset.order = String(index);
+      point.dataset.side = side;
+    });
+  };
+
+  const animatePanelPoints = (panel) => {
+    if (!panel) return;
+    const points = Array.from(panel.querySelectorAll('.js-how-it-works-point'))
+      .sort((a, b) => {
+        const aOrder = Number(a.dataset.order || 0);
+        const bOrder = Number(b.dataset.order || 0);
+        return aOrder - bOrder;
+      });
+
+    points.forEach((point) => {
+      point.classList.remove('is-visible');
+      point.style.transitionDelay = '0ms';
+    });
+
+    points.forEach((point, index) => {
+      const delay = Math.min(index * 100, 700);
+      point.style.transitionDelay = `${delay}ms`;
+      setTimeout(() => {
+        point.classList.add('is-visible');
+      }, delay);
+    });
+  };
+
+  const activateTab = (section, tab) => {
+    const tabs = section.querySelectorAll('.how-it-works__tab');
+    const panels = section.querySelectorAll('.how-it-works__panel');
+    const targetId = tab.getAttribute('data-panel-id');
+
+    tabs.forEach((t) => {
+      const isCurrent = t === tab;
+      t.classList.toggle('is-active', isCurrent);
+      t.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+    });
+
+    panels.forEach((panel) => {
+      const active = panel.id === targetId;
+      panel.classList.toggle('is-active', active);
+      if (active) {
+        panel.removeAttribute('hidden');
+        panel.classList.remove('is-animating');
+        void panel.offsetWidth;
+        panel.classList.add('is-animating');
+        positionPoints(panel);
+        animatePanelPoints(panel);
+        updateMobilePointsLine(panel);
+      } else {
+        panel.classList.remove('is-animating');
+        panel.setAttribute('hidden', '');
+      }
+    });
+  };
+
+  sections.forEach((section) => {
+    const tabs = section.querySelectorAll('.how-it-works__tab');
+    const activePanel = section.querySelector('.how-it-works__panel.is-active');
+
+    if (activePanel) {
+      activePanel.classList.add('is-animating');
+      positionPoints(activePanel);
+      animatePanelPoints(activePanel);
+      updateMobilePointsLine(activePanel);
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => activateTab(section, tab));
+    });
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      sections.forEach((section) => {
+        const panel = section.querySelector('.how-it-works__panel.is-active');
+        if (panel) {
+          positionPoints(panel);
+          updateMobilePointsLine(panel);
+        }
+      });
+    }, 120);
+  });
+});
+
 //counter stats section (+ page-hero-metrics з data-format="comma")
 document.addEventListener('DOMContentLoaded', function() {
   const counters = document.querySelectorAll('.js-counter');
