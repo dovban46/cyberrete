@@ -910,9 +910,17 @@ document.addEventListener('DOMContentLoaded', function() {
       return segmentBStart + (travel - segmentALength);
     };
 
+    const panelOffsetDeg = panel.id === 'how-it-works-panel-1' ? 10 : 0;
+
     points.forEach((point, index) => {
       const progress = count <= 1 ? 0.5 : (index + 0.5) / count;
-      const angleDeg = angleFromProgress(progress);
+      let angleDeg = angleFromProgress(progress) + panelOffsetDeg;
+
+      // Keep first-tab offset without allowing points into forbidden bottom sector.
+      if (angleDeg > forbiddenStart && angleDeg < forbiddenEnd) {
+        angleDeg = forbiddenEnd;
+      }
+
       const angleRad = (angleDeg * Math.PI) / 180;
       const anchorX = cx + radius * Math.cos(angleRad);
       const anchorY = cy + radius * Math.sin(angleRad);

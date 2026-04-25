@@ -162,6 +162,10 @@ body.page--product .header {
   }
 }
 
+body.page--blog .header {
+  background: none;
+}
+
 @media (max-width: 1080px) {
   .header {
     &__logo {
@@ -228,5 +232,9 @@ body.page--product .header {
     .header__container {
       padding: 19px 21px;
     }
+  }
+
+  body.page--blog .header{
+    background: none !important;
   }
 }
