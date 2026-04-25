@@ -150,7 +150,8 @@ body.is-not-front-page .header {
   backdrop-filter: blur(50px);
 }
 
-body.page--product .header {
+body.page--product .header,
+body.page--trust-your-evidence .header  {
   .header__btn {
     background-color: $color-btn-bg;
     color: $color-btn-text;
