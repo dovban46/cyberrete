@@ -159,9 +159,15 @@
   }
 }
 
+.press-single--blogs {
+  .press-single__date {
+    margin: 0;
+  }
+}
+
 @media (max-width: 1080px) {
   .press-single {
-    padding: 120px 16px 90px;
+    padding: 100px 16px 90px;
 
     &__title {
       font-size: 46px;
@@ -180,7 +186,7 @@
 
 @media (max-width: 767px) {
   .press-single {
-    padding: 100px 16px 80px;
+    padding: 60px 16px 80px;
 
     &__header {
       margin-bottom: 28px;

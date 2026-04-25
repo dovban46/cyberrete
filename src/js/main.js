@@ -86,6 +86,26 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// blog-posts: reveal each card while scrolling
+document.addEventListener('DOMContentLoaded', function() {
+  const cards = document.querySelectorAll('.js-blog-posts-card');
+  if (!cards.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      obs.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -8% 0px',
+    threshold: 0.12
+  });
+
+  cards.forEach((card) => observer.observe(card));
+});
+
 //capabilities stagger animation
 document.addEventListener('DOMContentLoaded', function() {
   const capabilitySections = document.querySelectorAll('.capabilities__container');
