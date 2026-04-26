@@ -126,6 +126,26 @@ document.addEventListener('DOMContentLoaded', function() {
   cards.forEach((card) => observer.observe(card));
 });
 
+// about-page-description: reveal each row while scrolling
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.js-about-page-description-item');
+  if (!items.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      obs.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -8% 0px',
+    threshold: 0.12
+  });
+
+  items.forEach((item) => observer.observe(item));
+});
+
 //capabilities stagger animation
 document.addEventListener('DOMContentLoaded', function() {
   const capabilitySections = document.querySelectorAll('.capabilities__container');
