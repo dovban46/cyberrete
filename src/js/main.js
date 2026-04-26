@@ -39,6 +39,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Focus newsletter input when opening footer anchor.
+document.addEventListener('DOMContentLoaded', function() {
+  const applyNewsletterAnchorFocus = () => {
+    if (window.location.hash !== '#footer-newsletter-form') return;
+
+    const newsletterForm = document.getElementById('footer-newsletter-form');
+    if (!newsletterForm) return;
+
+    const focusTarget = newsletterForm.querySelector('input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])');
+    if (!focusTarget) return;
+
+    setTimeout(() => {
+      try {
+        focusTarget.focus({ preventScroll: true });
+      } catch (e) {
+        focusTarget.focus();
+      }
+    }, 120);
+  };
+
+  applyNewsletterAnchorFocus();
+  window.addEventListener('hashchange', applyNewsletterAnchorFocus);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   const animatedElements = document.querySelectorAll('.js-animate');
 

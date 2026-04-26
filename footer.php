@@ -140,7 +140,7 @@ if ( $footer_has_contacts && $footer_has_menus ) {
 					<?php endif; ?>
 
 					<?php if ( $footer_newsletter_shortcode ) : ?>
-						<div class="site-footer__newsletter-form">
+						<div class="site-footer__newsletter-form" id="footer-newsletter-form">
 							<?php echo do_shortcode( $footer_newsletter_shortcode ); ?>
 						</div>
 					<?php endif; ?>

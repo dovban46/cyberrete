@@ -1,0 +1,130 @@
+.about-page-action {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  min-height: 435px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: var(--about-action-bg-image);
+  background-size: cover;
+  background-position: center -40px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: #12142699;
+    z-index: 1;
+  }
+
+  &__container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 604px;
+    padding: 40px 16px;
+
+    &.js-animate {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.9s ease,
+        transform 0.9s ease;
+      will-change: opacity, transform;
+    }
+
+    &.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &__title {
+    margin: 0 0 24px;
+    color: #f1f1f1;
+    font-size: 62px;
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    text-transform: capitalize;
+  }
+
+  &__text {
+    margin: 0;
+    color: #f1f1f1;
+    font-size: 17px;
+    line-height: 25px;
+    max-width: 580px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__btn {
+    margin-top: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 17px 32px;
+    border: 2px solid #1a2539;
+    border-radius: 60px;
+    background: #f1f1f1;
+    color: #1a2539;
+    font-size: 21px;
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: capitalize;
+    text-decoration: none;
+    transition:
+      background-color 0.22s ease,
+      color 0.22s ease,
+      transform 0.22s ease,
+      opacity 0.22s ease;
+
+    &:hover {
+      background: #1a2539;
+      color: #f1f1f1;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+@media (min-width: 1920px) {
+  .about-page-action {
+    background-position: center -50px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .about-page-action {
+    background-position: center 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-page-action {
+    min-height: 409px;
+
+    &__container {
+      padding: 100px 16px 40px;
+    }
+
+    &__title {
+      font-size: 40px;
+      margin-bottom: 24px;
+    }
+
+    &__text {
+      font-size: 16px;
+    }
+
+    &__btn {
+      margin-top: 32px;
+    }
+  }
+}
