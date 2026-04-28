@@ -1415,6 +1415,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Мобільне меню (бургер): панель справа, затемнення, закриття по X / поза панеллю / Escape.
 document.addEventListener('DOMContentLoaded', () => {
+  const initMenuDropdowns = (rootSelector, itemOpenClass) => {
+    const items = document.querySelectorAll(`${rootSelector} .menu-item-has-children`);
+    if (!items.length) return;
+
+    const closeSiblings = (currentItem) => {
+      const parentList = currentItem.parentElement;
+      if (!parentList) return;
+      parentList.querySelectorAll(':scope > .menu-item-has-children').forEach((item) => {
+        if (item === currentItem) return;
+        item.classList.remove(itemOpenClass);
+        const itemLink = item.querySelector(':scope > a');
+        if (itemLink) itemLink.setAttribute('aria-expanded', 'false');
+      });
+    };
+
+    items.forEach((item) => {
+      const link = item.querySelector(':scope > a');
+      const submenu = item.querySelector(':scope > .sub-menu');
+      if (!link || !submenu) return;
+
+      link.setAttribute('aria-haspopup', 'true');
+      link.setAttribute('aria-expanded', 'false');
+
+      if (!link.querySelector('.menu-item-dropdown-icon')) {
+        const icon = document.createElement('span');
+        icon.className = 'menu-item-dropdown-icon';
+        icon.setAttribute('aria-hidden', 'true');
+        link.appendChild(icon);
+      }
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isOpen = item.classList.contains(itemOpenClass);
+        if (isOpen) {
+          item.classList.remove(itemOpenClass);
+          link.setAttribute('aria-expanded', 'false');
+        } else {
+          closeSiblings(item);
+          item.classList.add(itemOpenClass);
+          link.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      const clickedInside = e.target.closest(rootSelector);
+      if (clickedInside) return;
+      items.forEach((item) => {
+        item.classList.remove(itemOpenClass);
+        const itemLink = item.querySelector(':scope > a');
+        if (itemLink) itemLink.setAttribute('aria-expanded', 'false');
+      });
+    });
+  };
+
+  initMenuDropdowns('.header__menu-list', 'is-open');
+  initMenuDropdowns('.mobile-menu__list', 'is-open');
+
   const menuRoot = document.getElementById('mobile-menu');
   const toggle = document.querySelector('.header__menu-toggle');
   if (!menuRoot || !toggle) return;
@@ -1453,7 +1511,11 @@ document.addEventListener('DOMContentLoaded', () => {
   closeBtn?.addEventListener('click', close);
 
   menuRoot.querySelectorAll('.mobile-menu a[href]').forEach((link) => {
-    link.addEventListener('click', () => close());
+    link.addEventListener('click', () => {
+      const parentItem = link.parentElement;
+      if (parentItem && parentItem.classList.contains('menu-item-has-children')) return;
+      close();
+    });
   });
 
   document.addEventListener('keydown', (e) => {

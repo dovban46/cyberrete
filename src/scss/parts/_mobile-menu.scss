@@ -85,6 +85,11 @@
       background: rgba(26, 37, 57, 0.06);
       color: $color-text-main;
       cursor: pointer;
+      outline: none;
+      box-shadow: none;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-tap-highlight-color: transparent;
       transition:
         background 0.2s ease,
         transform 0.15s ease;
@@ -96,6 +101,12 @@
 
       &:active {
         transform: scale(0.96);
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        box-shadow: none;
       }
     }
 
@@ -172,6 +183,76 @@
       .current-menu-item > a {
         font-weight: 600;
         color: $color-text-hover;
+      }
+
+      .menu-item-has-children {
+        > a {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+        }
+
+        .menu-item-dropdown-icon {
+          position: relative;
+          width: 10px;
+          height: 10px;
+          flex-shrink: 0;
+
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: currentColor;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+          }
+
+          &::before {
+            width: 10px;
+            height: 1.5px;
+          }
+
+          &::after {
+            width: 1.5px;
+            height: 10px;
+          }
+        }
+
+        &.is-open > a .menu-item-dropdown-icon::after {
+          opacity: 0;
+          transform: translate(-50%, -50%) scaleY(0.2);
+        }
+
+        > .sub-menu {
+          list-style: none;
+          margin: 0;
+          padding: 0 0 8px;
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition:
+            max-height 0.28s ease,
+            opacity 0.2s ease;
+
+          > li {
+            border-bottom: 0;
+
+            > a {
+              padding: 10px 24px;
+              font-size: 15px;
+              line-height: 1.35;
+              border-radius: 10px;
+            }
+          }
+        }
+
+        &.is-open > .sub-menu {
+          max-height: 420px;
+          opacity: 1;
+        }
       }
     }
 

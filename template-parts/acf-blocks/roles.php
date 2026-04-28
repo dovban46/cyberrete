@@ -43,7 +43,7 @@ if ( '' === $title && '' === $top_text_plain && '' === $bottom_text_plain && ! $
 }
 ?>
 
-<section class="roles">
+<section class="roles" id="roles">
 	<div class="roles__container js-animate">
 		<div class="roles__top">
 			<?php if ( '' !== $title ) : ?>

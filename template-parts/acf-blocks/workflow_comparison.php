@@ -127,6 +127,7 @@ $workflow_comparison_check_url = get_template_directory_uri() . '/assets/images/
 
 								$group_heading = get_sub_field( 'group_heading' );
 								$group_text    = get_sub_field( 'group_text' );
+								$group_btn     = get_sub_field( 'group_btn' );
 								$offset_class  = ( 2 === $card_index ) ? ' workflow-comparison__card--offset' : '';
 								?>
 								<article class="workflow-comparison__card<?php echo esc_attr( $offset_class ); ?>">
@@ -168,7 +169,21 @@ $workflow_comparison_check_url = get_template_directory_uri() . '/assets/images/
 										</ul>
 									<?php endif; ?>
 
-									<a href="#" class="workflow-comparison__card-more"><?php esc_html_e( 'Learn more', 'cyberrete' ); ?></a>
+									<?php if ( is_array( $group_btn ) && ! empty( $group_btn['url'] ) ) : ?>
+										<?php
+										$group_btn_url    = $group_btn['url'];
+										$group_btn_title  = ! empty( $group_btn['title'] ) ? $group_btn['title'] : __( 'Learn more', 'cyberrete' );
+										$group_btn_target = ! empty( $group_btn['target'] ) ? $group_btn['target'] : '_self';
+										?>
+										<a
+											href="<?php echo esc_url( $group_btn_url ); ?>"
+											class="workflow-comparison__card-more"
+											target="<?php echo esc_attr( $group_btn_target ); ?>"
+											<?php echo '_blank' === $group_btn_target ? ' rel="noopener noreferrer"' : ''; ?>
+										>
+											<?php echo esc_html( $group_btn_title ); ?>
+										</a>
+									<?php endif; ?>
 								</article>
 							<?php endwhile; ?>
 						</div>
