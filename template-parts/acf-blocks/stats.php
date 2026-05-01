@@ -10,7 +10,17 @@
 
                 <div class="stats__header">
                     <?php if ( $title ) : ?>
-                        <h2 class="stats__title"><?php echo esc_html( $title ); ?></h2>
+                        <h2 class="stats__title">
+                            <?php
+                            echo wp_kses(
+                                $title,
+                                array(
+                                    'span' => array(),
+                                    'br'   => array(),
+                                )
+                            );
+                            ?>
+                        </h2>
                     <?php endif; ?>
 
                     <?php if ( $desc ) : ?>

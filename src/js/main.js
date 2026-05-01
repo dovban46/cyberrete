@@ -150,6 +150,37 @@ document.addEventListener('DOMContentLoaded', function() {
   cards.forEach((card) => observer.observe(card));
 });
 
+// support-team: emulate hover state on mobile tap
+document.addEventListener('DOMContentLoaded', function() {
+  const isTouchMobile = window.matchMedia('(max-width: 768px) and (hover: none) and (pointer: coarse)').matches;
+  if (!isTouchMobile) return;
+
+  const cards = Array.from(
+    document.querySelectorAll('.support-team__card--has-hover-image:not(.support-team__card--image-only)')
+  );
+  if (!cards.length) return;
+
+  const clearTouchHover = () => {
+    cards.forEach((card) => card.classList.remove('is-touch-hover'));
+  };
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isActive = card.classList.contains('is-touch-hover');
+      clearTouchHover();
+      if (!isActive) {
+        card.classList.add('is-touch-hover');
+      }
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('.support-team__card--has-hover-image')) return;
+    clearTouchHover();
+  });
+});
+
 // about-page-description: reveal each row while scrolling
 document.addEventListener('DOMContentLoaded', function() {
   const items = document.querySelectorAll('.js-about-page-description-item');
@@ -503,11 +534,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function bindContentTimelineTrack(track) {
     const rail = track.querySelector('.js-content-timeline-rail');
+    const nodes = Array.from(track.querySelectorAll('.content-timeline__node'));
+
+    const updateTimelineScrollProgress = () => {
+      if (!rail) return;
+
+      const trackRect = track.getBoundingClientRect();
+      const trackTopDoc = trackRect.top + window.scrollY;
+      const triggerLine = window.scrollY + window.innerHeight * 0.08;
+      const scrollRange = Math.max(trackRect.height, 1);
+      const progressRaw = (triggerLine - trackTopDoc) / scrollRange;
+      const progress = Math.max(0, Math.min(1, progressRaw));
+
+      track.style.setProperty('--timeline-fill', progress.toFixed(4));
+      track.style.setProperty('--timeline-scroll', progress.toFixed(4));
+      const activationLineY = window.innerHeight * 0.32;
+
+      nodes.forEach((node) => {
+        const nodeRect = node.getBoundingClientRect();
+        const isActive = nodeRect.top <= activationLineY;
+        node.classList.toggle('is-active', isActive);
+      });
+    };
 
     layoutTimelineRail(track);
+    updateTimelineScrollProgress();
 
     const ro = new ResizeObserver(() => {
       layoutTimelineRail(track);
+      updateTimelineScrollProgress();
     });
     ro.observe(track);
 
@@ -518,6 +573,8 @@ document.addEventListener('DOMContentLoaded', function() {
       track.querySelectorAll('.js-content-timeline-step').forEach((step) => {
         step.classList.add('is-visible');
       });
+      track.style.setProperty('--timeline-fill', '1');
+      nodes.forEach((node) => node.classList.add('is-active'));
     } else {
       const trackIo = new IntersectionObserver((entries, obs) => {
         entries.forEach((en) => {
@@ -527,6 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (rail) {
               rail.classList.add('is-rail-visible');
             }
+            updateTimelineScrollProgress();
           });
           obs.unobserve(track);
         });
@@ -553,6 +611,9 @@ document.addEventListener('DOMContentLoaded', function() {
         stepIo.observe(step);
       });
     }
+
+    window.addEventListener('scroll', updateTimelineScrollProgress, { passive: true });
+    window.addEventListener('resize', updateTimelineScrollProgress);
   }
 
   tracks.forEach(bindContentTimelineTrack);

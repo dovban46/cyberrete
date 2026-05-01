@@ -101,9 +101,10 @@
     background: #f1f1f1;
     text-transform: capitalize;
     color: #1a2539;
-    font-family: $font-base;
+    font-family: $font-heading;
     font-size: 21px;
     line-height: 1.2;
+    letter-spacing: -0.04em;
     text-decoration: none;
     transition: transform 0.2s ease, opacity 0.2s ease;
 
@@ -114,11 +115,21 @@
   }
 }
 
+body.page--about .features-page-hero {
+  &::before {
+    background: #12142666;
+  }
+}
+
 @media (max-width: 768px) {
   .features-page-hero {
     padding: 60px 16px 100px;
     max-height: none;
     min-height: 0;
+
+    &::before {
+      background: rgb(18 20 38 / 54%);;
+    }
 
     &__container {
       padding: 0;
@@ -148,6 +159,12 @@
       padding: 13px 31px;
       font-size: 17px;
       margin: 0 auto;
+    }
+  }
+
+  body.page--about .features-page-hero {
+    &::before {
+      background: #12142699;
     }
   }
 }

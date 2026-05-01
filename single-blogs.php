@@ -70,9 +70,17 @@ get_header();
 										<?php
 										while ( $related_query->have_posts() ) :
 											$related_query->the_post();
+											$acf_link    = get_field( 'link', get_the_ID() );
+											$related_url = get_permalink();
+
+											if ( is_array( $acf_link ) && ! empty( $acf_link['url'] ) ) {
+												$related_url = $acf_link['url'];
+											} elseif ( is_string( $acf_link ) && '' !== trim( $acf_link ) ) {
+												$related_url = $acf_link;
+											}
 											?>
 											<li class="press-single__related-item">
-												<a href="<?php the_permalink(); ?>" class="press-single__related-link">
+												<a href="<?php echo esc_url( $related_url ); ?>" class="press-single__related-link">
 													<span class="press-single__related-link-title"><?php the_title(); ?></span>
 													<span class="press-single__related-link-date"><?php echo esc_html( get_the_date( 'd M. Y' ) ); ?></span>
 												</a>

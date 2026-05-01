@@ -37,6 +37,14 @@
     font-weight: 400;
     margin: 0 0 24px;
     text-transform: capitalize;
+
+    span {
+      background: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
   }
 
   &__description {
@@ -63,12 +71,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex-direction: column-reverse;
     max-height: 250px;
     gap: 72px;
   }
 
   &__card-text {
-    max-width: 290px;
+    max-width: 90%;
     font-size: 17px;
     line-height: 25px;
     color: $color-text-second;

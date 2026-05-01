@@ -49,8 +49,16 @@ $queried_id             = (int) get_queried_object_id();
 $queried_slug           = $queried_id ? (string) get_post_field( 'post_name', $queried_id ) : '';
 $is_technology_context  = is_page( 'technology' ) || is_page_template( 'page-technology.php') || ( '' !== $queried_slug && false !== strpos( $queried_slug, 'technology' ) );
 $section_modifier_class = $is_technology_context ? ' content-timeline--technology' : '';
+$timeline_anchor_base   = 'content-timeline';
+if ( ! isset( $GLOBALS['cyberrete_content_timeline_instance_index'] ) ) {
+	$GLOBALS['cyberrete_content_timeline_instance_index'] = 0;
+}
+$GLOBALS['cyberrete_content_timeline_instance_index']++;
+$timeline_anchor_id = 1 === (int) $GLOBALS['cyberrete_content_timeline_instance_index']
+	? $timeline_anchor_base
+	: $timeline_anchor_base . '-' . (int) $GLOBALS['cyberrete_content_timeline_instance_index'];
 ?>
-<section class="content-timeline<?php echo esc_attr( $section_modifier_class ); ?>">
+<section id="<?php echo esc_attr( $timeline_anchor_id ); ?>" class="content-timeline<?php echo esc_attr( $section_modifier_class ); ?>">
     <div class="content-timeline__container js-content-timeline-section">
 
         <?php if ( have_rows( 'content_timeline_section' ) ) : ?>

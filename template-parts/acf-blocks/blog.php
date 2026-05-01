@@ -112,11 +112,19 @@ if ( ! $blog_title && ! $blog_query->have_posts() ) {
 
 							$categories    = get_the_category();
 							$category_name = ( ! empty( $categories ) && isset( $categories[0]->name ) ) ? $categories[0]->name : '';
+							$acf_link      = get_field( 'link', get_the_ID() );
+							$post_url      = get_permalink();
+
+							if ( is_array( $acf_link ) && ! empty( $acf_link['url'] ) ) {
+								$post_url = $acf_link['url'];
+							} elseif ( is_string( $acf_link ) && '' !== trim( $acf_link ) ) {
+								$post_url = $acf_link;
+							}
 							?>
 
 							<div class="blog__slide swiper-slide">
 								<article class="blog__card">
-									<a href="<?php the_permalink(); ?>" class="blog__image-link">
+									<a href="<?php echo esc_url( $post_url ); ?>" class="blog__image-link">
 										<?php if ( has_post_thumbnail() ) : ?>
 											<div class="blog__image-wrap">
 												<?php
@@ -136,7 +144,7 @@ if ( ! $blog_title && ! $blog_query->have_posts() ) {
 									<div class="blog__body">
 										<div class="blog__title-row">
 											<h3 class="blog__post-title">
-												<a href="<?php the_permalink(); ?>" class="blog__post-title-link"><?php the_title(); ?></a>
+												<a href="<?php echo esc_url( $post_url ); ?>" class="blog__post-title-link"><?php the_title(); ?></a>
 											</h3>
 											<span class="blog__icon-wrap" aria-hidden="true">
 												<img

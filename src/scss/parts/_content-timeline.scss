@@ -97,6 +97,7 @@ $timeline-node-gradient: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
 
   &__track {
     --timeline-scroll: 0.5;
+    --timeline-fill: 0;
     position: relative;
   }
 
@@ -117,14 +118,17 @@ $timeline-node-gradient: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
       clip-path 0.95s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.5s ease;
 
-    // Колір лінії змінюється при скролі (color-mix + fallback)
-    background: $timeline-line-a;
-    background: color-mix(
-      in srgb,
-      $timeline-line-a calc(40% + 60% * var(--timeline-scroll, 0.5)),
-      $timeline-line-b calc(60% - 60% * var(--timeline-scroll, 0.5))
-    );
-    box-shadow: 0 0 18px color-mix(in srgb, $timeline-line-a 35%, transparent);
+    background: #6265b8;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #82b4d0;
+      transform-origin: top center;
+      transform: scaleY(var(--timeline-fill, 0));
+      transition: transform 0.18s linear;
+    }
 
     &.is-rail-visible {
       opacity: 1;
@@ -161,17 +165,23 @@ $timeline-node-gradient: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
     height: $timeline-node-size;
     flex-shrink: 0;
     border-radius: 50%;
-    background: $timeline-node-gradient;
+    background: #6265b8;
     box-shadow:
       0 0 0 1px rgba(98, 101, 184, 0.22),
-      0 6px 22px color-mix(in srgb, #6265b8 calc(18% + 22% * var(--timeline-scroll, 0.5)), transparent);
-    filter: saturate(calc(0.92 + 0.08 * var(--timeline-scroll, 0.5)))
-      hue-rotate(calc((1 - var(--timeline-scroll, 0.5)) * 14deg));
-    transform: scale(calc(0.96 + 0.04 * var(--timeline-scroll, 0.5)));
+      0 6px 22px rgba(98, 101, 184, 0.34);
     transition:
-      filter 0.45s ease,
-      transform 0.45s ease,
-      box-shadow 0.45s ease;
+      background-color 0.34s ease,
+      box-shadow 0.34s ease,
+      transform 0.34s ease;
+    transform: scale(0.96);
+  }
+
+  &__node.is-active {
+    background: #82b4d0;
+    box-shadow:
+      0 0 0 1px rgba(130, 180, 208, 0.36),
+      0 6px 22px rgba(130, 180, 208, 0.35);
+    transform: scale(1);
   }
 
   &__item-inner {
@@ -228,6 +238,28 @@ $timeline-node-gradient: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+}
+
+@media (min-width: 768px) {
+  body.page--technology {
+    .content-timeline--technology {
+      .content-timeline__item--left .content-timeline__item-inner {
+        justify-self: end;
+        align-items: flex-end;
+        text-align: right;
+      }
+
+      .content-timeline__item--right .content-timeline__item-inner {
+        justify-self: start;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .content-timeline__item-text{
+        max-width: 300px;
+      }
+    }
+  }
 }
 
 @media (max-width: 1080px) {

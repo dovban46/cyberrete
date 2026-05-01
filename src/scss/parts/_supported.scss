@@ -42,7 +42,9 @@
   &__list {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 0;
+    min-width: 0;
 
     @for $i from 1 through 15 {
       > :nth-child(#{$i}) {
@@ -55,6 +57,7 @@
 
   &__item {
     padding: 20px 120px;
+    flex: 0 0 auto;
   }
 
   &__item {
@@ -80,13 +83,36 @@
   }
 }
 
+@media (max-width: 1180px) and (min-width: 769px) {
+  .supported-by {
+    &__container {
+      gap: 28px;
+    }
+
+    &__list {
+      flex: 1 1 auto;
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    &__item {
+      padding: 20px clamp(12px, 2vw, 40px);
+    }
+
+    &__image {
+      max-height: 84px;
+      max-width: min(100%, 180px);
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .supported-by {
     background: $color-bg-second;
     padding: 60px 0;
 
     &__container {
-      gap: 82px;
+      gap: 42px;
     }
 
     &__title {
@@ -96,11 +122,12 @@
     &__title-mobile {
       display: block;
       font-family: $font-base !important;
+      font-size: 36px;
     }
 
     &__list {
-      justify-content: center;
-      gap: 32px;
+      justify-content: flex-start;
+      gap: clamp(10px, 4vw, 28px);
     }
 
     &__item {
@@ -109,6 +136,8 @@
 
     &__image {
       max-height: 65px;
+      max-width: clamp(80px, 22vw, 140px);
+      width: auto;
     }
   }
 }

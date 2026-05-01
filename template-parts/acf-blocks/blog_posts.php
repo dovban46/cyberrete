@@ -93,9 +93,17 @@ $current_url = get_permalink( get_queried_object_id() );
 				while ( $blog_posts_query->have_posts() ) :
 					$blog_posts_query->the_post();
 					$description = get_field( 'description', get_the_ID() );
+					$acf_link    = get_field( 'link', get_the_ID() );
+					$post_url    = get_permalink();
+
+					if ( is_array( $acf_link ) && ! empty( $acf_link['url'] ) ) {
+						$post_url = $acf_link['url'];
+					} elseif ( is_string( $acf_link ) && '' !== trim( $acf_link ) ) {
+						$post_url = $acf_link;
+					}
 					?>
 					<article class="blog-posts__card js-blog-posts-card">
-						<a href="<?php the_permalink(); ?>" class="blog-posts__image-link">
+						<a href="<?php echo esc_url( $post_url ); ?>" class="blog-posts__image-link">
 							<div class="blog-posts__image-wrap">
 								<?php if ( has_post_thumbnail() ) : ?>
 									<?php
@@ -117,13 +125,13 @@ $current_url = get_permalink( get_queried_object_id() );
 								<?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>
 							</time>
 
-							<h3 class="blog-posts__category"><?php echo esc_html( get_the_title() ); ?></h3>
+							<h3 class="blog-posts__category"><?php echo esc_html( $description ); ?></h3>
 
 							<?php if ( $description ) : ?>
-								<div class="blog-posts__description"><?php echo esc_html( $description ); ?></div>
+								<div class="blog-posts__description"><?php echo esc_html( get_the_title() ); ?></div>
 							<?php endif; ?>
 
-							<a href="<?php the_permalink(); ?>" class="blog-posts__more"><?php esc_html_e( 'Read more', 'cyberrete' ); ?></a>
+							<a href="<?php echo esc_url( $post_url ); ?>" class="blog-posts__more"><?php esc_html_e( 'Read more', 'cyberrete' ); ?></a>
 						</div>
 					</article>
 				<?php endwhile; ?>

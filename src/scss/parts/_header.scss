@@ -252,10 +252,11 @@ body.page--about .header  {
   .header__btn {
     background-color: $color-btn-bg;
     color: $color-btn-text;
-    border: none;
+    border: 2px solid $color-btn-bg;
 
     &:hover {
       background-color: lighten($color-btn-bg, 10%);
+      border-color: lighten($color-btn-bg, 10%);
     }
   }
 }

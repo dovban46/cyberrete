@@ -30,7 +30,17 @@
 
                 <header class="deployment__header">
                     <?php if ( $title ) : ?>
-                        <h2 class="deployment__title js-stagger-item"><?php echo esc_html( $title ); ?></h2>
+                        <h2 class="deployment__title js-stagger-item">
+                            <?php
+                            echo wp_kses(
+                                $title,
+                                array(
+                                    'span' => array(),
+                                    'br'   => array(),
+                                )
+                            );
+                            ?>
+                        </h2>
                     <?php endif; ?>
 
                     <?php if ( $lead ) : ?>

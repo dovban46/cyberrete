@@ -114,6 +114,7 @@
     font-size: 17px;
     line-height: 25px;
     color: $color-text-main;
+    max-width: 540px;
 
     p {
       margin: 0;
@@ -169,6 +170,15 @@
 
   &__card--image-only {
     padding: 0;
+
+    .support-team__full-image {
+      background-size: 100% 100%;
+      background-position: right center;
+    }
+
+    .support-team__full-image::after {
+      background: rgb(6 10 47 / 20%);
+    }
   }
 
   &__card--has-hover-image:hover {
@@ -277,6 +287,32 @@
 
     &__image-wrap{
       margin-bottom: 16px;
+    }
+  }
+}
+
+@media (max-width: 768px) and (hover: none) and (pointer: coarse) {
+  .support-team {
+    &__card--has-hover-image.is-touch-hover:not(.support-team__card--image-only) {
+      background-image: var(--support-hover-image);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      &::before {
+        opacity: 1;
+      }
+
+      .support-team__card-title,
+      .support-team__card-text {
+        color: #fefeff;
+      }
+
+      .support-team__image-wrap {
+        max-height: 0;
+        margin-bottom: 0;
+        opacity: 0;
+      }
     }
   }
 }

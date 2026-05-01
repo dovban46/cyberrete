@@ -126,7 +126,7 @@ $footer-max: 1340px;
       line-height: 22px;
       color: $color-text-main;
       background: #F9FAFB;
-      border-radius: 4px;
+      border-radius: 100px;
       transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease,
@@ -163,7 +163,7 @@ $footer-max: 1340px;
         color: #151515 !important;
         background: #EAEBEE !important;
         border: none !important;
-        border-radius: 6px;
+        border-radius: 100px;
         cursor: pointer;
         white-space: nowrap;
         transition:

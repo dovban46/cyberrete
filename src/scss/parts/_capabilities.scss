@@ -39,6 +39,14 @@
     font-weight: 400;
     color: $color-text-main;
     text-transform: capitalize;
+
+    span {
+      background: linear-gradient(180deg, #82b4d0 0%, #6265b8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
   }
 
   &__description {

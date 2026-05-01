@@ -248,12 +248,8 @@
       
 
       &:hover .why-choose__card-hover {
-        opacity: 0;
+        opacity: 0.5;
       }
-    }
-
-    &__card-hover {
-      display: none;
     }
 
     &__card-inner {
