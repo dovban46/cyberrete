@@ -3,7 +3,8 @@
  * Flexible layout: page_hero_metrics
  *
  * ACF: група `page_hero_metrics_section`
- *   - hero_image_bg (image) — фон секції, шар `page-hero-metrics__bg`
+ *   - hero_image_bg (image) — фон секції; також poster/fallback поки завантажується `hero_video_bg`
+ *   - hero_video_bg (file / URL) — відеофон у шарі `page-hero-metrics__bg`
  *   - hero_title (text / WYSIWYG — HTML через wp_kses_post)
  *   - hero_text (textarea / WYSIWYG — HTML, без wpautop)
  *   - hero_stats (repeater)
@@ -36,10 +37,54 @@ $hero_modifier_class   = $is_technology_context ? ' page-hero-metrics--technolog
 					? cyberrete_acf_resolved_image( get_sub_field( 'hero_image_bg' ) )
 					: null;
 				$hero_bg_url = ( $hero_bg_img && ! empty( $hero_bg_img['url'] ) ) ? $hero_bg_img['url'] : '';
+				$hero_bg_video = get_sub_field( 'hero_video_bg' );
+				$hero_video_url = '';
+				$hero_video_type = '';
 
-				if ( $hero_bg_url ) {
+				if ( is_array( $hero_bg_video ) ) {
+					if ( ! empty( $hero_bg_video['url'] ) ) {
+						$hero_video_url = (string) $hero_bg_video['url'];
+					}
+					if ( ! empty( $hero_bg_video['mime_type'] ) ) {
+						$hero_video_type = (string) $hero_bg_video['mime_type'];
+					}
+				} elseif ( is_numeric( $hero_bg_video ) ) {
+					$hero_video_url  = (string) wp_get_attachment_url( (int) $hero_bg_video );
+					$hero_video_type = (string) get_post_mime_type( (int) $hero_bg_video );
+				} elseif ( is_string( $hero_bg_video ) && '' !== trim( $hero_bg_video ) ) {
+					$hero_video_url = trim( $hero_bg_video );
+				}
+
+				if ( $hero_video_url || $hero_bg_url ) {
 					?>
-					<div class="page-hero-metrics__bg" style="background-image: url('<?php echo esc_url( $hero_bg_url ); ?>');" aria-hidden="true"></div>
+					<div
+						class="page-hero-metrics__bg"
+						<?php if ( $hero_bg_url ) : ?>
+							style="background-image: url('<?php echo esc_url( $hero_bg_url ); ?>');"
+						<?php endif; ?>
+						aria-hidden="true"
+					>
+						<?php if ( $hero_video_url ) : ?>
+							<video
+								class="page-hero-metrics__bg-video"
+								autoplay
+								muted
+								loop
+								playsinline
+								preload="metadata"
+								<?php if ( $hero_bg_url ) : ?>
+									poster="<?php echo esc_url( $hero_bg_url ); ?>"
+								<?php endif; ?>
+							>
+								<source
+									src="<?php echo esc_url( $hero_video_url ); ?>"
+									<?php if ( $hero_video_type ) : ?>
+										type="<?php echo esc_attr( $hero_video_type ); ?>"
+									<?php endif; ?>
+								>
+							</video>
+						<?php endif; ?>
+					</div>
 					<?php
 				}
 
