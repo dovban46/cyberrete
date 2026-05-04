@@ -7261,10 +7261,6 @@ body.page--about .features-page-hero::before {
   background: #eef4ff;
   border-color: #b2ccff !important;
 }
-.contact__form .wpcf7-spinner {
-  margin: 0 0 0 12px;
-  vertical-align: middle;
-}
 
 .contact-form {
   display: -webkit-box;
@@ -7596,6 +7592,85 @@ body.page--about .features-page-hero::before {
   .contact--page .contact-form__input, .contact--page .contact-form__textarea, .contact--page .contact-form__select {
     font-size: 14px;
     line-height: 1.1;
+  }
+}
+.wpcf7 form .wpcf7-spinner {
+  margin: 10px 0 0 10px !important;
+  vertical-align: middle;
+  display: -webkit-inline-box !important;
+  display: -ms-inline-flexbox !important;
+  display: inline-flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 6px 14px;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(130, 180, 208, 0.22)), to(rgba(98, 101, 184, 0.18))) !important;
+  background: linear-gradient(180deg, rgba(130, 180, 208, 0.22) 0%, rgba(98, 101, 184, 0.18) 100%) !important;
+  border: 1px solid rgba(98, 101, 184, 0.38) !important;
+  border-radius: 999px !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  -webkit-animation: none !important;
+          animation: none !important;
+  opacity: 1 !important;
+  font-family: "Open Sauce Sans", sans-serif;
+  font-size: 0;
+  line-height: 0;
+  overflow: visible;
+}
+.wpcf7 form .wpcf7-spinner::before {
+  display: none !important;
+  content: none !important;
+}
+.wpcf7 form .wpcf7-spinner::after {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  color: #6265b8;
+  content: "";
+  opacity: 0;
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.wpcf7 form.submitting .wpcf7-spinner::after {
+  content: "Sending...";
+  opacity: 1;
+  visibility: visible;
+  -webkit-animation: cyberrete-cf7-sending 1.15s ease-in-out infinite;
+          animation: cyberrete-cf7-sending 1.15s ease-in-out infinite;
+}
+
+@-webkit-keyframes cyberrete-cf7-sending {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+
+@keyframes cyberrete-cf7-sending {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wpcf7 form.submitting .wpcf7-spinner::after {
+    -webkit-animation: none;
+            animation: none;
   }
 }
 .why-choose {
@@ -8265,7 +8340,7 @@ body.page--about .features-page-hero::before {
     padding-right: 24px;
   }
   .about-page-slider__image {
-    max-height: 18px;
+    max-height: 34px;
   }
 }
 .about-page-missions {
